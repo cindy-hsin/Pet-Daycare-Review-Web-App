@@ -2,54 +2,61 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
 import './App.css';
+import './EntryForm';
+import EntryForm from './EntryForm';
+import { Button } from 'antd';
+
 
 function App() {
 
-    const [homes, setHomes] = useState([]);
-    const [newHomeInput, setNewHomeInput] = useState('');
+    const [entries, setEntries] = useState([]);
+    const [newEntryInput, setNewEntryInput] = useState({});
   
-    function getHomes() {
-      Axios.get('/api/home')
+    function getEntries() {
+      Axios.get('/api/entry')
         .then(function(response) {
-          setHomes(response.data);
+          setEntries(response.data);
         })
     }
-  
-    function createNewHome() {
-      if (!newHomeInput) return;
-  
-      Axios.post('/api/home', {
-        address: newHomeInput,
+
+    function createNewEntry() {
+      console.log(newEntryInput);
+      if (!newEntryInput) return;
+      Axios.post('/api/entry', {
+        address: newEntryInput.address,
+        name: newEntryInput.name,
+        hadGrooming: newEntryInput.hadGrooming,
+        hasBoarding: newEntryInput.hasBoarding,
+        // add image and description
       })
         .then(function(response) {
-          setNewHomeInput('');
-          getHomes();
+          setNewEntryInput('');
+          getEntries();
         })
         .catch(function(error) {
           console.log(error);
         })
-  
     }
-  
-    useEffect(getHomes, []);
-  
-    const homeComponent = [];
-    for(let home of homes) {
-      homeComponent.push(<div>
-        <a href={'/home/' + home._id}>
-            <h1>{home.address}</h1>
+
+    useEffect(getEntries, []);
+
+    const entryComponent = [];
+    for(let entry of entries) {
+      entryComponent.push(<div>
+        <a href={'/entry/' + entry._id}>
+            <h1>{entry.name}</h1>
         </a>
-        
-        <h5>Room Count: {home.roomCount}</h5>
         </div>)
-  
     }
-  
+
     return (
         <div>
-            {homeComponent}
-            <input value={newHomeInput} onChange={e => setNewHomeInput(e.target.value)} />
-            <button onClick={createNewHome}>Add new home</button>
+            {entryComponent}
+            {/* disable if user is not logged in */}
+            {/* <EntryForm /> */}
+            <EntryForm setNewEntryInput={setNewEntryInput}/>
+            <Button onClick={createNewEntry}>Create New Entry</Button>
+
         </div>)
 }
 
