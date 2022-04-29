@@ -7,11 +7,12 @@ const mongoose = require('mongoose');
 
 const cookieParser = require('cookie-parser');
 
-const homeRoute = require('./routes/home');
+const entryRoute = require('./routes/entry');
 const userRoute = require('./routes/user');
 /** MongoDB Connection */
 // The default address for MongoDB
-const mongooseEndpoint = 'mongodb://127.0.0.1/pokemons_app';//"mongodb+srv://dbUser:hr6SReMWV5zVOYqP@neucs5610.nbvht.mongodb.net/pokemons_app?retryWrites=true&w=majority"  // MongoDB Atlas
+const mongooseEndpoint = 'mongodb://127.0.0.1/review_app';
+// "mongodb+srv://dbUser:hr6SReMWV5zVOYqP@neucs5610.nbvht.mongodb.net/pokemons_app?retryWrites=true&w=majority"  // MongoDB Atlas
 // 'mongodb://127.0.0.1/pokemons_app';  --> Local
 // userNewUrlParser is not required, but the old parser is deprecated
 mongoose.connect(mongooseEndpoint, { useNewUrlParser: true });
@@ -32,7 +33,7 @@ db.on('error', console.error.bind(console, 'Error connecting to MongoDB:'));
  * Cookies will be difficult to implement if front-end and back-end
  * are separted in different domian.
  */
-const cors = require('cors');      
+const cors = require('cors');
 
 
 /** Use a middleware called static.
@@ -52,13 +53,16 @@ app.use(cors({
 /** Be sure to use the cookie-parser before the routes! */
 app.use(cookieParser());
 
-app.use('/api/home', homeRoute);
+// send request to entry Router
+app.use('/api/entry', entryRoute);
+// send request to user Router
 app.use('/api/user', userRoute);
 
 /** When the incoming request doesn't match any previous routes,i.e. '/api/home',
  *  the request is intercepted by this route, which sends back a file(i.e. React code)
  *  as response. So when client access any URL other than /api/home, the browser
  *  will display the React front-end.
+ *  Then the react router will handle the front-end routes for us
 */
 app.get('*', function (req, res) {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));

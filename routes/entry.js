@@ -1,32 +1,11 @@
 const express = require('express');
 // import Mongoose Model:
-const HomeModel = require('./model/home.model');
+const EntryModel = require('./model/entry.model');
 const router = express.Router();
 const auth_middleware = require('./middleware/auth_middleware');
 
-// This in-memory list is NOT used anymore after using MongoDB to store data.
-// const homes = [
-//     {
-//         id: 1, 
-//         address: '2222 Evil St',
-//         roomCount: 10,
-//     },
-//     {
-//         id: 2,
-//         address: '444 Cape Cod, Boston',
-//         roomCount: 4,
-//     },
-//     {
-//         id: 3,
-//         address: '1234 USA Town',
-//         roomCount: 7,
-//     }
-// ];
-
-
 /** Get homes that are owned by the current logged-in user. */
 router.get('/', auth_middleware, function(request, response) {
-
     // const minRoomCount = request.query.minRoomCount;
     // if (minRoomCount) {
     //     const roomCountHomes = [];
@@ -43,9 +22,9 @@ router.get('/', auth_middleware, function(request, response) {
     // }
 
     const username = request.username;
-    return HomeModel.getHomesByUsername(username)
-        .then(dbResponseHomes => {
-            response.status(200).send(dbResponseHomes);
+    return EntryModel.getEntriesByUsername(username)
+        .then(dbResponseEntries => {
+            response.status(200).send(dbResponseEntries);
         })
         .catch(error => {
             response.status(400).send(error);
@@ -53,7 +32,7 @@ router.get('/', auth_middleware, function(request, response) {
 
 })
 
-router.get('/:homeId', function(request, response) {
+router.get('/:entryId', function(request, response) {
 
     // const homeId = request.params.homeId;
 
@@ -65,22 +44,22 @@ router.get('/:homeId', function(request, response) {
     // }
 
     // return response.status(404).send('No home matches ID = ' + homeId);
-    const homeId = request.params.homeId;
-    console.log("HomeId: ", homeId);
+    const entryId = request.params.entryId;
+    console.log("EntryId: ", entryId);
 
-    return HomeModel.getHomeById(homeId)
-        .then(home => {
+    return EntryModel.getEntryById(entryId)
+        .then(entry => {
             // When homeId is castable to db ObjectId (i.e. homeId is 
             // a string of 12 bytes or a string of 24 hex characters or an integer),
             // the Promise will resolve and get into then clause.
-            if (!home) {
+            if (!entry) {
                 // When homeId is castable but no such id exists in db,
                 // the Promise's resolved value "home" will be null,
                 // and will enter this if condition.
-                response.status(404).send("No home exists with that Id");
+                response.status(404).send("No entry exists with that Id");
             } else {
-                console.log("home in getById method: ", home);
-                response.status(200).send(home);
+                console.log("entry in getById method: ", entry);
+                response.status(200).send(entry);
             }
         })
         .catch(error => {
@@ -106,20 +85,30 @@ router.get('/:homeId', function(request, response) {
 // Use auth_middleware to decrypt the cookie token first, to get the info (e.g. username)
 // of currently logged-in user, s.t. we can make operations based on the user info.
 router.post('/', auth_middleware, function(request, response) {
-    const homeAddress = request.body.address;
+    const address = request.body.address;
+    const name = request.body.name;
+    const hasBoarding = request.body.hasBoarding;
+    const hasGrooming = request.body.hasGrooming;
+
+    // todo: add these later:
+    // const image = request.body.image;
+    // const description = request.body.description;
+
     // auth_middlware will have decrypt the username and add it to the request, as an attribute.
     const username = request.username;
 
-    if (!homeAddress) {
-        response.status(401).send("Missing home address argument");
+    if (!address) {
+        response.status(401).send("Missing address argument");
     }
 
     // Mongo will auto-generate id for us!!
     // const newestHome = homes[homes.length - 1];
     // const nextHomeId = newestHome.id + 1;   
-    const home = {
-        owner: username,
-        address: homeAddress,  
+    const entry = {
+        address: address,
+        name: name,
+        hasBoarding: hasBoarding,
+        hasGrooming: hasGrooming,
     }
 
     // NOTE: Mongoose Model is different from Java Dao. 
@@ -127,9 +116,9 @@ router.post('/', auth_middleware, function(request, response) {
     // Instead it returns a Promise, which will either resolves with a data base response,
     // or rejects with an error.
 
-    return HomeModel.createHome(home)
+    return EntryModel.createEntry(entry)
       .then(dbResponse => {
-        console.log("response of createHome: ", dbResponse);
+        console.log("response of createsEntry: ", dbResponse);
         response.status(200).send(dbResponse);
       })
       .catch(error => {

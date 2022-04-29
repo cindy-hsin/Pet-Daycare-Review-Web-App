@@ -3,17 +3,17 @@ import { useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import Axios from 'axios';
 
-export default function HomeEntry(props) {
+export default function Entry(props) {
 
-    const [home, setHome] = useState(undefined);
-    console.log("HomeEntry rendered! ", home)
+    const [entry, setEntry] = useState(undefined);
+    console.log("Entry rendered! ", entry)
     const params = useParams();
 
     useEffect(() => {
-        Axios.get('/api/home/' + params.homeId)
+        Axios.get('/api/entry/' + params.entryId)
             .then(response => {
                 console.log("Front-end receives response: ", response);
-                setHome(response.data);}) 
+                setEntry(response.data);}) 
             .catch(error => {
                 console.log(error)
                 if (error.response) {
@@ -25,16 +25,18 @@ export default function HomeEntry(props) {
             });
     }, [])
 
-    if (!home) {
-        return (<div>Home Loading...</div>)
+    if (!entry) {
+        return (<div>Entry Loading...</div>)
     }
 
 
     return (
         <div>
-            <h1> Address: {home.address}</h1>
-            <h2>Build Date: {home.builtDate}</h2>
-            This is a Home Entry
+            <h1> Name: {entry.name}</h1>
+            <h2> Address: {entry.address}</h2>
+            <h2> Has Grooming: {entry.hasGrooming}</h2>
+            <h2> Has Boarding: {entry.hasBoarding}</h2>
+            <h3> Date: {entry.builtDate}</h3>
         </div>
     )
 }
