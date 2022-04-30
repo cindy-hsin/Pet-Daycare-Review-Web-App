@@ -29,17 +29,17 @@ const EntryForm = (props) => {
         <Input placeholder="Minor Ave 123, Seattle, WA 99999" onChange={e => setEntryInput({...entryInput, address: e.target.value})}/>
       </Form.Item>
 
-      <Form.Item label="Has Grooming" placeholder="please choose Yes or No">
-        <Select onChange={value => setEntryInput({...entryInput, hasGrooming: value})}>
-          <Select.Option value="Yes" >Yes</Select.Option>
-          <Select.Option value="No">No</Select.Option>
+      <Form.Item label="Has Grooming" placeholder="please choose Yes or No" required tooltip="This is a required field">
+        <Select onSelect={value => setEntryInput({...entryInput, hasGrooming: value})}>
+          <Select.Option value="true">Yes</Select.Option>
+          <Select.Option value="false">No</Select.Option>
         </Select>
       </Form.Item>
 
-      <Form.Item label="Has Boarding" placeholder="please choose Yes or No">
+      <Form.Item label="Has Boarding" placeholder="please choose Yes or No" required tooltip="This is a required field">
         <Select onSelect={value => setEntryInput({...entryInput, hasBoarding: value})}>
-          <Select.Option value="Yes">Yes</Select.Option>
-          <Select.Option value="No">No</Select.Option>
+          <Select.Option value="true">Yes</Select.Option>
+          <Select.Option value="false">No</Select.Option>
         </Select>
       </Form.Item>
 

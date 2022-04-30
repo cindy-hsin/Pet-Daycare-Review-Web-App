@@ -11,7 +11,7 @@ export default function CreateUser(props) {
     const navigate = useNavigate();
 
     function createNewUser() {
-        Axios.post('/api/user', {username, password})
+        Axios.post('/api/users', {username, password})
             .then(response => {
                 console.log("Created user");
                 console.log(response.data);

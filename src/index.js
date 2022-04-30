@@ -13,7 +13,7 @@ ReactDOM.render(
     <Header />
     <Routes>
         <Route path={"/"} element={<App />}/>
-        <Route path={"/entry/:entryId"} element={<Entry />}/>
+        <Route path={"/entries/:entryId"} element={<Entry />}/>
         <Route path={"/login"} element={<Login />}/>
         <Route path={"/createUser"} element={<CreateUser />}/>
     </Routes>

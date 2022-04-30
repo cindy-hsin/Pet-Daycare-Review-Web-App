@@ -11,7 +11,7 @@ export default function Login(props) {
     const navigate = useNavigate();
 
     function authenticateUser() {
-        Axios.post('/api/user/authenticate', {username, password})
+        Axios.post('/api/users/authenticate', {username, password})
             .then(response => {
                 console.log(response.data);
                 // Redirect to '/' after successfully creating a new user.

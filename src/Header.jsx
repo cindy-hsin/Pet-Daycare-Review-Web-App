@@ -8,7 +8,7 @@ export default function Header(props) {
 
     const navigate = useNavigate();
     useEffect(function(){
-        Axios.get('/api/user/isLoggedIn')
+        Axios.get('/api/users/isLoggedIn')
             .then(response => {
                 console.log("Get isLoggedin: ", response.data.username);
                 console.log("Current username in Header component: ", username);
@@ -17,7 +17,7 @@ export default function Header(props) {
     });
 
     function logout(){
-        Axios.post('/api/user/logout')
+        Axios.post('/api/users/logout')
             .then(respone => {
                setUsername(null);
                 navigate('/');

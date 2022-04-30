@@ -11,30 +11,35 @@ function App() {
 
     const [entries, setEntries] = useState([]);
     const [newEntryInput, setNewEntryInput] = useState({});
+    console.log("App is rendered. newEntryInput: ", newEntryInput);
+
   
     function getEntries() {
-      Axios.get('/api/entry')
+      Axios.get('/api/entries')
         .then(function(response) {
           setEntries(response.data);
-        })
+        }).catch(
+            error => {console.log("Get all entries failed in App.js. Error: ", error.response.data);}
+        )
     }
 
     function createNewEntry() {
-      console.log(newEntryInput);
+      console.log("In App,js, createNewEntry:", newEntryInput);
       if (!newEntryInput) return;
-      Axios.post('/api/entry', {
+      Axios.post('/api/entries', {
         address: newEntryInput.address,
         name: newEntryInput.name,
-        hadGrooming: newEntryInput.hadGrooming,
+        hasGrooming: newEntryInput.hasGrooming,
         hasBoarding: newEntryInput.hasBoarding,
-        // add image and description
+        description: newEntryInput.description,
+        image: newEntryInput.image
       })
         .then(function(response) {
           setNewEntryInput('');
           getEntries();
         })
         .catch(function(error) {
-          console.log(error);
+          console.log("Create entry failed in App.js. Error: ", error.response.data);
         })
     }
 

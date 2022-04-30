@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 const EntrySchema =require('../schema/entry.schema');
 
-// Creating a model takes a schema as argument.
-// mongoose.model() method makes a copy of what we defined on the schema, 
-// and it also contains all Mongoose methods we will use to interact with MongoDB.
 const EntryModel = mongoose.model("Entry", EntrySchema);
 
 function createEntry(entry) {
@@ -15,23 +12,43 @@ function createEntry(entry) {
 }
 
 // Query homes whose owner is the given username
-function getEntriesByUsername(username) {
-    return EntryModel.find({
-        owner: username
-    }).exec();
-}
+// function getEntriesByUsername(username) {
+//     return EntryModel.find({
+//         owner: username
+//     }).exec();
+// }
 
+/**
+ * @returns All entries sorted by updatedAt, from newest to oldest.
+ */
 function getAllEntries() {
-    return EntryModel.find().exec();
+    return EntryModel.find().sort({updatedAt: 'desc'}).exec();
 }
 
 function getEntryById(id) {
     return EntryModel.findById(id).exec();
 }
 
+/**
+ * @param {*} entryId : entryId
+ * @param {*} updateOfEntry : object consisting of fields and values to be updated
+ */
+function updateEntryById(entryId, updateOfEntry) {
+    return EntryModel.findByIdAndUpdate(entryId, updateOfEntry).exec();
+    // findByIdAndUpdate: Finds a matching document, updates it according to the update arg, 
+    // passing any options, and returns the found document (if any) to the callback. The query executes if callback is passed.
+    // shorhand for findOneAndUpdate({_id: id}, updateOfEntry);
+}
+
+function deleteEntryById(entryId) {
+    return EntryModel.findByIdAndDelete(entryId).exec();
+    // findByIdAndDelete: Finds a matching document, removes it, and passes the found document (if any) to the callback.
+}
+
 module.exports = {
     createEntry,
-    getEntriesByUsername,
     getAllEntries,
-    getEntryById
+    getEntryById,
+    updateEntryById,
+    deleteEntryById
 }

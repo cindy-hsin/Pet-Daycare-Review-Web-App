@@ -8,7 +8,7 @@ const UserSchema = new Schema({
    password: String,
 }, {
     // Declare which collection we're using
-    collection: 'users',
+    collection: 'User',
 })
 
 module.exports = UserSchema;
