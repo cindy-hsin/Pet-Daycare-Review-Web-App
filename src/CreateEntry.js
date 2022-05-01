@@ -17,13 +17,11 @@ function CreateEntry() {
 
     function createNewEntry() {
       console.log("In CreateEntry.js, createNewEntry:", entryInput);
-      if (!entryInput) return; // TODO: needed? Combine validation logic.
-
-      //TODO: Check required field, and other validation. If invalid, show error message. 
-      // Validation Ref: https://github.com/maryamaljanabi/mern-blog/tree/master/client/src/pages/Posts
-      // Check NewPost.js
-
       
+      // Validation: if required field is missing, or only contains whitespace (for string fields).
+      // Back-end: Will reject submission.
+      // Front-end: antd Form will display error message.
+
       Axios.post('/api/entries', {
         address: entryInput.address,
         name: entryInput.name,
@@ -46,43 +44,69 @@ function CreateEntry() {
 
     return (
         // <EntryForm></EntryForm>
-      <Form form={form} layout="vertical">
+        <Form form={form} layout="vertical"  labelCol={{span: 4,}} wrapperCol={{span: 16,}}>
         <h2>Create a New Entry</h2>
-        <Form.Item label="Name" required tooltip="This is a required field">  
+        <Form.Item label="Name" name="name" 
+            rules={[
+                {
+                required: true,
+                whitespace: true,
+                message: 'Please enter the name of the daycare!',
+                },
+            ]}> 
         <Input placeholder="Great Dog" onChange={e => setEntryInput({...entryInput, name: e.target.value})}/>
-      </Form.Item>
+        </Form.Item>
 
-      <Form.Item label="Address" required tooltip="This is a required field">
-        <Input placeholder="Minor Ave 123, Seattle, WA 99999" onChange={e => setEntryInput({...entryInput, address: e.target.value})}/>
-      </Form.Item>
+        <Form.Item label="Address" name="address"
+            rules={[
+                {
+                required: true,
+                whitespace: true,
+                message: 'Please enter the address!',
+                },
+            ]}>
+            <Input placeholder="Minor Ave 123, Seattle, WA 99999" onChange={e => setEntryInput({...entryInput, address: e.target.value})}/>
+        </Form.Item>
 
-      <Form.Item label="Has Grooming" placeholder="please choose Yes or No" required tooltip="This is a required field">
-        <Select onSelect={value => setEntryInput({...entryInput, hasGrooming: value})}>
-          <Select.Option value="true">Yes</Select.Option>
-          <Select.Option value="false">No</Select.Option>
-        </Select>
-      </Form.Item>
+        <Form.Item label="Has Grooming" name="hasGrooming"
+            rules={[
+            {
+                required: true,
+                message: 'Please select if the daycare has grooming.',
+            },
+            ]}>
+            <Select onSelect={value => setEntryInput({...entryInput, hasGrooming: value})}>
+            <Select.Option value="true">Yes</Select.Option>
+            <Select.Option value="false">No</Select.Option>
+            </Select>
+        </Form.Item>
 
-      <Form.Item label="Has Boarding" placeholder="please choose Yes or No" required tooltip="This is a required field">
-        <Select onSelect={value => setEntryInput({...entryInput, hasBoarding: value})}>
-          <Select.Option value="true">Yes</Select.Option>
-          <Select.Option value="false">No</Select.Option>
-        </Select>
-      </Form.Item>
+        <Form.Item label="Has Boarding" name="hasBoarding" 
+            rules={[
+                {
+                required: true,
+                message: 'Please select if the daycare has boarding.',
+                },
+            ]}>
+            <Select onSelect={value => setEntryInput({...entryInput, hasBoarding: value})}>
+            <Select.Option value="true">Yes</Select.Option>
+            <Select.Option value="false">No</Select.Option>
+            </Select>
+        </Form.Item>
 
-      <Form.Item label="Description" optional tooltip="This field is optionial">
-        <Input.TextArea onChange={e => setEntryInput({...entryInput, description: e.target.value})}/>
-      </Form.Item>
+        <Form.Item label="Description" optional tooltip="This field is optionial">
+            <Input.TextArea onChange={e => setEntryInput({...entryInput, description: e.target.value})}/>
+        </Form.Item>
 
-      <Form.Item label="Photo" optional tooltip="This field is optionial">
-        <Input.TextArea onChange={e => setEntryInput({...entryInput, photo: e.target.value})}/>
-      </Form.Item>
+        <Form.Item label="Photo" optional tooltip="This field is optionial">
+            <Input.TextArea onChange={e => setEntryInput({...entryInput, photo: e.target.value})}/>
+        </Form.Item>
 
-    {/* needs to pass the value back to the upper level */}
-      <Form.Item>
-        <Button type="primary" onClick={createNewEntry}>Submit</Button>
-      </Form.Item>
-    </Form>
+        
+        <Form.Item>
+            <Button htmlType="submit" type="primary" onClick={createNewEntry}>Submit</Button>
+        </Form.Item>
+        </Form>
 
 
 

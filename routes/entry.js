@@ -90,11 +90,11 @@ router.post('/', auth_middleware, function(request, response) {
 
 function checkEntryRequiredField(name, address, hasGrooming, hasBoarding) {
     const result = {pass: true, message: ""};
-    if (!name) {
+    if (!name || name.trim().length === 0) {
         result.pass = false;
         result.message += "Missing entry's name input."
     }
-    if (!address) {
+    if (!address || address.trim().length === 0) {
         result.pass = false;
         result.message += " Missing entry's address input.";
     }
@@ -200,11 +200,11 @@ router.post('/:entryId/reviews', auth_middleware, function(request, response) {
 
 function checkReviewRequiredField(content, rating) {
     const result = {pass: true, message: ""};
-    if (!content) {
+    if (!content || content.trim().length === 0) {
         result.pass = false;
         result.message += "Missing reivew's content input."
     }
-    if (typeof(rating) === "undefined" || rating === null) {
+    if (typeof(rating) === "undefined" || rating === null) {    //TODO: Front-end: ReviewForm import {Rate} from 'antd' to use the predefined "star" design. Then, test backend validation logic. 
         result.pass = false;
         result.message += " Missing reivew's rating input.";
     }
