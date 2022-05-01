@@ -15,6 +15,8 @@ router.post('/authenticate', function(request, response) {
     // TODO:?? Confirm if this is needed
     const password = request.body.password + '';
 
+    console.log("Before call getUserByUserName");
+
     return UserModel.getUserByUserName(username)
         .then(dbResponseUser => {
             // If the password of the same username in the database

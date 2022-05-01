@@ -10,7 +10,7 @@ export default function Entry(props) {
     const params = useParams();
 
     useEffect(() => {
-        Axios.get('/api/entry/' + params.entryId)
+        Axios.get('/api/entries/' + params.entryId)
             .then(response => {
                 console.log("Front-end receives response: ", response);
                 setEntry(response.data);}) 

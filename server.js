@@ -9,11 +9,11 @@ const cookieParser = require('cookie-parser');
 
 const entryRoute = require('./routes/entry');
 const userRoute = require('./routes/user');
+
 /** MongoDB Connection */
-// The default address for MongoDB
-const mongooseEndpoint = 'mongodb://127.0.0.1/review_app';
-// "mongodb+srv://dbUser:hr6SReMWV5zVOYqP@neucs5610.nbvht.mongodb.net/pokemons_app?retryWrites=true&w=majority"  // MongoDB Atlas
-// 'mongodb://127.0.0.1/pokemons_app';  --> Local
+// The default address for MongoDB   
+const mongooseEndpoint = "mongodb+srv://dbUser:hr6SReMWV5zVOYqP@daycarereviewapp.cqbsv.mongodb.net/daycare_review?retryWrites=true&w=majority" ; // MongoDB Atlas
+
 // userNewUrlParser is not required, but the old parser is deprecated
 mongoose.connect(mongooseEndpoint, { useNewUrlParser: true });
 // Get the connection string
@@ -39,13 +39,13 @@ const cors = require('cors');
 /** Use a middleware called static.
  *  This middleware uses disk to read files and serve the file's contents,
  *  which is the React code in our case.
- */    // ?????
+ */ 
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-/** No longer need 'cors' in single-server app. */
+/** No longer need 'cors' in single-server app at deploy phase. */
 app.use(cors({
     origin: '*'
 }))
@@ -53,10 +53,12 @@ app.use(cors({
 /** Be sure to use the cookie-parser before the routes! */
 app.use(cookieParser());
 
-// send request to entry Router
-app.use('/api/entry', entryRoute);
 // send request to user Router
-app.use('/api/user', userRoute);
+app.use('/api/users', userRoute);
+// send request to entry Router
+app.use('/api/entries', entryRoute);
+
+
 
 /** When the incoming request doesn't match any previous routes,i.e. '/api/home',
  *  the request is intercepted by this route, which sends back a file(i.e. React code)
