@@ -11,7 +11,9 @@ const entryRoute = require('./routes/entry');
 const userRoute = require('./routes/user');
 /** MongoDB Connection */
 // The default address for MongoDB
-const mongooseEndpoint = 'mongodb://127.0.0.1/review_app';
+const mongooseEndpoint = "mongodb+srv://dbUser:hr6SReMWV5zVOYqP@neucs5610.nbvht.mongodb.net/pokemons_app?retryWrites=true&w=majority";
+// "mongodb+srv://dbUser:hr6SReMWV5zVOYqP@daycarereviewapp.cqbsv.mongodb.net/daycare_review?retryWrites=true&w=majority";
+// mongodb://127.0.0.1/review_app;
 // "mongodb+srv://dbUser:hr6SReMWV5zVOYqP@neucs5610.nbvht.mongodb.net/pokemons_app?retryWrites=true&w=majority"  // MongoDB Atlas
 // 'mongodb://127.0.0.1/pokemons_app';  --> Local
 // userNewUrlParser is not required, but the old parser is deprecated
