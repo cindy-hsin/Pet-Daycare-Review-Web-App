@@ -1,21 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
+
+import NavBar from './NavBar';
+import Home from './Home';
+import CreateEntry from './CreateEntry';
 import Entry from './Entry';
-import Login from './Login';
-import CreateUser from './CreateUser';
-import Header from './Header';
+import LogIn from './LogIn';
+import SignUp from './SignUp';
+
 
 ReactDOM.render(    
     <BrowserRouter>
-    <Header />
+    <NavBar />
     <Routes>
-        <Route path={"/"} element={<App />}/>
+        <Route path={"/"} element={<Home />}/>
+        <Route path={"/entries/new"} element={<CreateEntry />}/>
         <Route path={"/entries/:entryId"} element={<Entry />}/>
-        <Route path={"/login"} element={<Login />}/>
-        <Route path={"/createUser"} element={<CreateUser />}/>
+        <Route path={"/login"} element={<LogIn/>}/>
+        <Route path={"/signup"} element={<SignUp/>}/>
+        {/*TODO: Add a page to show user's entries*/} 
+        {/* <Route paht={"user/entries"} element={}/> */}
     </Routes>
     </BrowserRouter>
     ,

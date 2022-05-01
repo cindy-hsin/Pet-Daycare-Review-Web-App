@@ -18,10 +18,14 @@ const EntryForm = (props) => {
   //     })
   // }
 
+  // TODO: Conditional rendering. 
+  // EntryForm is the child of both CreateEntry and UpdateEntry components.
+  // Pass a prop from parent to indicate whether EntryForm should display as a form for creating or updating entry.
+  // Then render EntryForm according to this prop.
   return (
     <Form form={form} layout="vertical">
         <h2>Create a New Entry</h2>
-        <Form.Item label="Name" required tooltip="This is a required field">
+        <Form.Item label="Name" required tooltip="This is a required field">  
         <Input placeholder="Great Dog" onChange={e => setEntryInput({...entryInput, name: e.target.value})}/>
       </Form.Item>
 
@@ -53,7 +57,7 @@ const EntryForm = (props) => {
 
     {/* needs to pass the value back to the upper level */}
       <Form.Item>
-        <Button type="primary" onClick={props.setNewEntryInput(entryInput)}>Submit</Button>
+        <Button type="primary" onClick={()=>{props.setNewEntryInput(entryInput)}}>Submit</Button>
         {/* onClick={createNewEntry(entryInput)} */}
       </Form.Item>
     </Form>
