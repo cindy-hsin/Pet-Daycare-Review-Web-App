@@ -19,13 +19,27 @@ const EntryForm = (props) => {
   // }
 
   return (
-    <Form form={form} layout="vertical">
+    <Form form={form} layout="vertical" labelCol={{span: 4,}} wrapperCol={{span: 16,}}>
         <h2>Create a New Entry</h2>
-        <Form.Item label="Name" required tooltip="This is a required field">
+        <Form.Item label="Name" name="name" 
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input your username!',
+                      },
+                    ]}
+        >
         <Input placeholder="Great Dog" onChange={e => setEntryInput({...entryInput, name: e.target.value})}/>
       </Form.Item>
 
-      <Form.Item label="Address" required tooltip="This is a required field">
+      <Form.Item label="Address" 
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your username!',
+                  },
+                ]}
+        >
         <Input placeholder="Minor Ave 123, Seattle, WA 99999" onChange={e => setEntryInput({...entryInput, address: e.target.value})}/>
       </Form.Item>
 
@@ -53,8 +67,9 @@ const EntryForm = (props) => {
 
     {/* needs to pass the value back to the upper level */}
       <Form.Item>
-        <Button type="primary" onClick={props.setNewEntryInput(entryInput)}>Submit</Button>
+        <Button htmlType="submit" type="primary" onClick={()=>{props.setNewEntryInput(entryInput)}}>Submit</Button>
         {/* onClick={createNewEntry(entryInput)} */}
+        {/* {props.setNewEntryInput(entryInput)} */}
       </Form.Item>
     </Form>
   );
