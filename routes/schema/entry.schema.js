@@ -8,7 +8,7 @@ const EntrySchema = new Schema({
     hasBoarding: Boolean,    
     hasGrooming: Boolean, 
     description: String,
-    photo: String 
+    photo: String       // image URL
 }, {
     timestamps: true,   // Mongoose Will auto-generate createdAt and updatedAt timestamps
     collection: 'Entry' // Declare which collection we're using
