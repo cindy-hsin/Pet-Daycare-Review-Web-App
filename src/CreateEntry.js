@@ -73,8 +73,8 @@ function CreateEntry() {
             },
             ]}>
             <Select onSelect={value => setEntryInput({...entryInput, hasGrooming: value})}>
-            <Select.Option value="true">Yes</Select.Option>
-            <Select.Option value="false">No</Select.Option>
+            <Select.Option value={true}>Yes</Select.Option>
+            <Select.Option value={false}>No</Select.Option>
             </Select>
         </Form.Item>
 
@@ -86,8 +86,8 @@ function CreateEntry() {
                 },
             ]}>
             <Select onSelect={value => setEntryInput({...entryInput, hasBoarding: value})}>
-            <Select.Option value="true">Yes</Select.Option>
-            <Select.Option value="false">No</Select.Option>
+            <Select.Option value={true}>Yes</Select.Option>
+            <Select.Option value={false}>No</Select.Option>
             </Select>
         </Form.Item>
 
