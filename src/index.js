@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import './App.css';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
 import NavBar from './NavBar';
@@ -18,7 +19,7 @@ ReactDOM.render(
     <Routes>
         <Route path={"/"} element={<Home />}/>
         <Route path={"/entries/new"} element={<CreateEntry />}/>
-        <Route path={"/entries/edit"} element={<UpdateEntry />}/>
+        <Route path={"/entries/edit/:entryId"} element={<UpdateEntry />}/>
         <Route path={"/entries/:entryId"} element={<Entry />}/>
         <Route path={"/login"} element={<LogIn/>}/>
         <Route path={"/signup"} element={<SignUp/>}/>

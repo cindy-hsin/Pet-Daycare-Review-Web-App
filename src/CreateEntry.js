@@ -1,19 +1,16 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
-import './App.css';
-import './EntryForm';
 import EntryForm from './EntryForm';
 import { Form, Input, Button, Select } from 'antd';
 
 
 function CreateEntry() {
     const [form] = Form.useForm();
-    // const [entries, setEntries] = useState([]);
     const [entryInput, setEntryInput] = useState({});
     const navigate = useNavigate();
-    console.log("CreateEntry is rendered. newEntryInput: ", entryInput);
+    console.log("CreateEntry is rendered. entryInput: ", entryInput);
 
     function createNewEntry() {
       console.log("In CreateEntry.js, createNewEntry:", entryInput);
@@ -94,11 +91,11 @@ function CreateEntry() {
             </Select>
         </Form.Item>
 
-        <Form.Item label="Description" optional tooltip="This field is optionial">
+        <Form.Item label="Description" >
             <Input.TextArea onChange={e => setEntryInput({...entryInput, description: e.target.value})}/>
         </Form.Item>
 
-        <Form.Item label="Photo" optional tooltip="This field is optionial">
+        <Form.Item label="Photo" >
             <Input.TextArea onChange={e => setEntryInput({...entryInput, photo: e.target.value})}/>
         </Form.Item>
 

@@ -130,7 +130,7 @@ router.put('/:entryId', function(request, response) {
                 console.log("response of updateEntryById: ", dbResponse);
                 // NOTE! The returned dbResponse of findByIdAndUpdate method is the original object,
                 // not the updated object!!
-                response.status(200).send("Successfully updated entry: "+ dbResponse._id);
+                response.status(200).send(dbResponse._id);
             } 
         }).catch(error => {
             response.status(400).send("Failed to update entry. "+ error);
@@ -232,7 +232,7 @@ router.put('/:entryId/reviews/:reviewId', function(request, response) {
                 console.log("response of updateReviewById: ", dbResponse);
                 // NOTE! The returned dbResponse of findByIdAndUpdate method is the original object,
                 // not the updated object!!
-                response.status(200).send("Succesfully updated review: "+ dbResponse._id);
+                response.status(200).send(dbResponse._id);
             }
         }).catch(error => {
             response.status(400).send("Failed to update review. "+ error);

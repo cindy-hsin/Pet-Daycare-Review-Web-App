@@ -18,8 +18,9 @@ const { SubMenu } = Menu;
 
 
 export default function NavBar() {
+    console.log("NavBar is rendered!");
     // const [username, setUsername] = useState(null);
-    const userName = "xxx";  // For inital testing: null -> show "Log In, Sign Up"; "xxx" -> show Create Entry, Profile button
+    const userName = null;  // For inital testing: null -> show "Log In, Sign Up"; "xxx" -> show Create Entry, Profile button
 
     // TODO: fill the login, logout logic.
     function logout(){
@@ -29,7 +30,7 @@ export default function NavBar() {
     return(
         <div>
             <Menu selectedKeys={"logo"} mode="horizontal" theme="dark">
-                <Menu.Item className="unhoverable-menu-item">
+                <Menu.Item className="unhoverable-menu-item" key="appLogo">
                 <a href="/">
                     <Avatar src={appLogo} shape="square" /> &nbsp; Daycare Review App
                 </a>
