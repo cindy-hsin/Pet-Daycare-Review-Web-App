@@ -10,7 +10,7 @@ function CreateEntry() {
 
     const navigate = useNavigate();
     console.log("CreateEntry is rendered. entryInput: ", entryInput);
-
+  
     function createNewEntry(newEntryInput) {
       console.log("In CreateEntry.js, createNewEntry:", newEntryInput);
       
