@@ -20,7 +20,7 @@ const { SubMenu } = Menu;
 export default function NavBar() {
     console.log("NavBar is rendered!");
     // const [username, setUsername] = useState(null);
-    const userName = null;  // For inital testing: null -> show "Log In, Sign Up"; "xxx" -> show Create Entry, Profile button
+    const userName = "xxx";  // For inital testing: null -> show "Log In, Sign Up"; "xxx" -> show Create Entry, Profile button
 
     // TODO: fill the login, logout logic.
     function logout(){
