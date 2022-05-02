@@ -2,7 +2,6 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
-import './App.css';
 import './EntryForm';
 import EntryForm from './EntryForm';
 import { Form, Input, Button, Select } from 'antd';
@@ -23,7 +22,6 @@ function CreateEntry() {
       // Validation Ref: https://github.com/maryamaljanabi/mern-blog/tree/master/client/src/pages/Posts
       // Check NewPost.js
 
-      
       Axios.post('/api/entries', {
         address: entryInput.address,
         name: entryInput.name,

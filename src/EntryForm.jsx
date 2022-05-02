@@ -26,8 +26,8 @@ const EntryForm = (props) => {
     <Form form={form} layout="vertical">
         <h2>Create a New Entry</h2>
         <Form.Item label="Name" required tooltip="This is a required field">  
-        <Input placeholder="Great Dog" onChange={e => setEntryInput({...entryInput, name: e.target.value})}/>
-      </Form.Item>
+          <Input placeholder="Great Dog" onChange={e => setEntryInput({...entryInput, name: e.target.value})}/>
+        </Form.Item>
 
       <Form.Item label="Address" required tooltip="This is a required field">
         <Input placeholder="Minor Ave 123, Seattle, WA 99999" onChange={e => setEntryInput({...entryInput, address: e.target.value})}/>

@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
+import {Form, Input, Button} from 'antd';
 
 
 export default function CreateUser(props) {
+    const [form] = Form.useForm();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [image, setImage] = useState("");
 
     // useNavigate hook: For redirect.
     const navigate = useNavigate();
@@ -29,26 +32,39 @@ export default function CreateUser(props) {
     }
 
     return (
-        <div>
-            <h1> Create User</h1>
-            <div>
-                <h5>Username</h5>
-                <input name="username" value={username} onChange={
-                    e => setUsername(e.target.value)
-                }></input>
-            </div>
-            
-            <div>
-                <h5>Password</h5>
-                {/* use type='password' to hide the password when displayed */}
-                <input type='password' name="password" value={password} onChange={
-                    e => setPassword(e.target.value)
-                }></input>
-            </div>
+        <div className="central-form">
+        <Form form={form} layout="vertical" >
+        <h1 className='central-text'>Sign up for free</h1>
+            <Form.Item label="Username" name="username"
+                    rules={[
+                        {
+                          required: true,
+                          message: 'Please input your username!',
+                        },
+                      ]}>  
+                <Input placeholder="ABC" onChange={e => setUsername(e.target.value)}/>
+            </Form.Item>
 
-            <button onClick={createNewUser}>Create User</button>
+            <Form.Item label="Password" name="password"
+                    rules={[
+                        {
+                          required: true,
+                          message: 'Please input your password!',
+                        },
+                      ]}>  
+                <Input placeholder="777777" onChange={e => setPassword(e.target.value)}/>
+            </Form.Item>
+
+            <Form.Item label="Image URL" name="image">  
+                <Input.TextArea placeholder="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.theverge.com%2F2019%2F5%2F6%2F18531287%2Fpokemon-neuroscience-visual-cortex-brain-information&psig=AOvVaw1eWRzo-cb5_ikD_CNCPPKr&ust=1651548760409000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCMii0tvwv_cCFQAAAAAdAAAAABAP"
+                        onChange={e => setImage(e.target.value)}/>
+            </Form.Item>
+
+            <Form.Item>
+                <Button className="float-right" htmlType='submit' type="primary" onClick={createNewUser}>Sign Up</Button>
+            </Form.Item>
+        </Form>
         </div>
-
     )
     
 }
