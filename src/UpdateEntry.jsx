@@ -27,6 +27,8 @@ function UpdateEntry() {
                 // });
                 setEntryInput(response.data);
                 setHasFetchedData(true);
+            }).catch(function(error) {
+                console.log("Get current entry data failed in UpdateEntry.js. Error: ", error.response.data);
             })
     }
 

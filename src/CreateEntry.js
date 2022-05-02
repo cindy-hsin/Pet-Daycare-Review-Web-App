@@ -3,11 +3,9 @@ import { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import EntryForm from './EntryForm';
-import { Form, Input, Button, Select } from 'antd';
 
 
 function CreateEntry() {
-    // const [form] = Form.useForm();
     const [entryInput, setEntryInput] = useState({});
 
     const navigate = useNavigate();
