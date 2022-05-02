@@ -19,20 +19,24 @@ const { SubMenu } = Menu;
 export default function NavBar() {
     const [userName, setUsername] = useState(null);
     const navigate = useNavigate();
+    console.log("NavBar re-renderd. userName: ", userName);
 
     useEffect(function() {
-        Axios.get('/api/user/isLoggedIn')
+        console.log("Axios.get/...isLoggedIn, userName: ", userName);
+        Axios.get('/api/users/isLoggedIn')
             .then(response => {setUsername(response.data.username); console.log("username: ", response.data.username)})
-            .catch(error => console.log("User is not logged in"));
-    }, [])
-    // const userName = "abc";  
-    // For inital testing: null -> show "Log In, Sign Up"; "xxx" -> show Create Entry, Profile button
+            .catch(error => console.log("User is not logged in. Error: ", error.response.data));
+    })
 
     function logout() {
-        // console.log("log out!");
-        Axios.post('/api/user/logout')
+        console.log("log out!");
+        Axios.post('/api/users/logout')
         .then(response => {
+            // console.log("Got response from backend")
+            setUsername(null);
+            // console.log("After setUsername(null)");
             navigate('/')
+            // console.log("After navigate('/')");
         })
         .catch(error => console.log("Error logging out"));
     }

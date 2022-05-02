@@ -10,8 +10,8 @@ import SignUp from './SignUp';
 import Layout from './Layout';
 
 ReactDOM.render(    
-    <Layout>
     <BrowserRouter>
+    <Layout>
     <Routes>
         <Route path={"/"} element={<Home />}/>
         <Route path={"/entries/new"} element={<CreateEntry />}/>
@@ -22,8 +22,8 @@ ReactDOM.render(
         {/*TODO: Add a page to show user's entries*/} 
         {/* <Route paht={"user/entries"} element={}/> */}
     </Routes>
-    </BrowserRouter>
     </Layout>
+    </BrowserRouter>
     ,
     document.getElementById('root')
 );
