@@ -77,13 +77,23 @@
 }
 
 .central-form {
-  background-color: white;
-  color: black;
-  margin: 5% 15%;
-  padding: 2rem;
-  box-shadow: -2px 5px 14px -1px rgba(0, 0, 0, 0.2);
-  border: 1px solid lightgray;
-  border-radius: 10px;
+    background-color: white;
+    color: black;
+    margin: 5% 15%;
+    padding: 2rem;
+    box-shadow: -2px 5px 14px -1px rgba(0, 0, 0, 0.2);
+    border: 1px solid lightgray;
+    border-radius: 10px;
+  }
+  
+.central-form-large {
+background-color: white;
+color: black;
+margin: 2% 5%;
+padding: 2rem;
+box-shadow: -2px 5px 14px -1px rgba(0, 0, 0, 0.2);
+border: 1px solid lightgray;
+border-radius: 10px;
 }
 
 .central-text {

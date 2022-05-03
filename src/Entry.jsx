@@ -11,7 +11,6 @@ export default function Entry(props) {
     const params = useParams();
     console.log("Entry rendered! ", entry);
 
-    
     const isLoggedIn = true; // TODO: Just for test. Real log-in logic to be implemented.
 
     useEffect(getEntry, []);
@@ -30,7 +29,7 @@ export default function Entry(props) {
     return (
         !entry ? (
             <div>Entry Loading...</div>
-        ) : <div className="view-entry">
+        ) : <div className="view-entry central-form-large">
                 
                     <div >
                         {/*TODO: May have to adjust size and centerize image */}
