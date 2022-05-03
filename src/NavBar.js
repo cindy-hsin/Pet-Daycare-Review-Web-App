@@ -23,10 +23,10 @@ export default function NavBar() {
 
 
     const navigate = useNavigate();
-    console.log("NavBar re-renderd. username: ", username);
+    // console.log("NavBar re-renderd. username: ", username);
 
     useEffect(function() {
-        console.log("Axios.get/...isLoggedIn, username: ", username);
+        // console.log("Axios.get/...isLoggedIn, username: ", username);
         Axios.get('/api/users/isLoggedIn')
             .then(response => {
                 setUsername(response.data.username); 
