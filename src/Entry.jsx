@@ -2,12 +2,14 @@ import React from 'react';
 import { useEffect, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Axios from 'axios';
-import { Image, Descriptions, Divider, Button, Modal } from 'antd';
+import { Image, Descriptions, Divider, Button, Modal, Avatar } from 'antd';
 import moment from 'moment';
 
 
 import ReviewArea from './ReviewArea'
 import defaultEntryPhoto from './assets/defaultDaycareImage.png'
+import defaultAvatar from "./assets/defaultUserAvatar.png";
+
 
 export default function Entry(props) {
     const [entry, setEntry] = useState(undefined);
@@ -74,12 +76,12 @@ export default function Entry(props) {
                     /> 
                 </div>
 
-                { /*TODO: Add creator, avator, Last edited:  updatedAt(May 28, 2021 at 20:19) 
-                    Ref: Blogapp */}
-
                 <div className="entry-header">  
                     <h1> {entry.name }</h1>
-                    <p>By {entry.creator/**TODO: Reformat */}</p>
+                    <span> By
+                        <Avatar size="large" src={/**TODO: get creator's avatar.Try using 'ref' in schema?>*/ defaultAvatar}/>
+                        {entry.creator}
+                    </span>
                     <p>Last Edited: {moment(entry.updatedAt).format('MMMM Do YYYY, h:mm a')}</p>
                 </div>   
 
