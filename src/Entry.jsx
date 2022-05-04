@@ -30,7 +30,7 @@ export default function Entry(props) {
     return (
         !entry ? (
             <div>Entry Loading...</div>
-        ) : <div className="view-entry">
+        ) : <div className="view-entry central-form-large">
                 
                     <div >
                         {/*TODO: May have to adjust size and centerize image */}
