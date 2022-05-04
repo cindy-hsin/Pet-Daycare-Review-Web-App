@@ -42,7 +42,6 @@ function updateEntryById(entryId, updateOfEntry) {
 
 function deleteEntryById(entryId) {
     return EntryModel.findByIdAndDelete(entryId).exec();
-    // findByIdAndDelete: Finds a matching document, removes it, and passes the found document (if any) to the callback.
 }
 
 module.exports = {

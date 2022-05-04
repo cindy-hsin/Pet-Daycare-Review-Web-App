@@ -6,7 +6,7 @@ const ReviewSchema = new Schema({
     content: String,
     rating: Number
 }, {
-    timestamp: true,
+    timestamps: true,
     collection: 'Review',
 })
 

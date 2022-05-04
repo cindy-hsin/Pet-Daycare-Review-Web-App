@@ -9,10 +9,10 @@ function createReview(review) {
 
 /**
  * @param {*} entryId 
- * @returns All reviews of the entryId, sorted by updatedAt, from newest to oldest.
+ * @returns All reviews of the entryId, sorted by updatedAt, from oldest to newest.
  */
 function getReviewsByEntryId(entryId) {
-    return ReviewModel.find({entryId: entryId}).sort({updatedAt: 'desc'}).exec();
+    return ReviewModel.find({entryId: entryId}).sort({updatedAt: 'asc'}).exec();
 }
 
 function updateReviewById(reviewId, updateOfReview) {
@@ -23,9 +23,14 @@ function deleteReviewById(reviewId) {
     return ReviewModel.findByIdAndDelete(reviewId).exec();
 }
 
+function deleteAllReivewByEntryId(entryId) {
+    return ReviewModel.deleteMany({entryId: entryId})   //TODO: entryId need to convert to ObjectID type? 
+}
+
 module.exports = {
     createReview,
     getReviewsByEntryId,
     updateReviewById,
-    deleteReviewById
+    deleteReviewById,
+    deleteAllReivewByEntryId
 }
