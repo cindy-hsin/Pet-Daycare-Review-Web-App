@@ -8,13 +8,13 @@ export default function CreateUser(props) {
     const [form] = Form.useForm();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [image, setImage] = useState("");
+    const [avatar, setAvatar] = useState("");
 
     // useNavigate hook: For redirect.
     const navigate = useNavigate();
 
     function createNewUser() {
-        Axios.post('/api/users', {username, password})
+        Axios.post('/api/users', {username, password, avatar})
             .then(response => {
                 console.log("Created user");
                 console.log(response.data);
@@ -55,9 +55,9 @@ export default function CreateUser(props) {
                 <Input placeholder="777777" onChange={e => setPassword(e.target.value)}/>
             </Form.Item>
 
-            <Form.Item label="Image URL" name="image">  
+            <Form.Item label="Profile Image URL" name="avatar">  
                 <Input.TextArea placeholder="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.theverge.com%2F2019%2F5%2F6%2F18531287%2Fpokemon-neuroscience-visual-cortex-brain-information&psig=AOvVaw1eWRzo-cb5_ikD_CNCPPKr&ust=1651548760409000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCMii0tvwv_cCFQAAAAAdAAAAABAP"
-                        onChange={e => setImage(e.target.value)}/>
+                        onChange={e => setAvatar(e.target.value)}/>
             </Form.Item>
 
             <Form.Item>

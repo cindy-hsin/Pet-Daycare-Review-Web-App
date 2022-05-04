@@ -50,7 +50,15 @@ router.get('/isLoggedin', auth_middleware, function(request, response){
     // If is currently logged in, request.username should not be empty, and
     // we'll send back the username with response.
     // Otherwise, request.username will be ??? TODO:???
-    return response.status(200).send({username: request.username})
+    const decodedUsername = request.username;
+
+    // Get the user's avatar from DB
+    return UserModel.getUserByUserName(decodedUsername)
+        .then(dbResponseUser => {
+            return response.status(200).send({
+                username: decodedUsername,
+                avatar: dbResponseUser.avatar})
+        }).catch(error => response.status(400).send("Failed to get user's avatar from database"))
 })
 
 
@@ -85,6 +93,7 @@ router.get('/:username', function(request, response) {
 router.post('/', function(request, response) {
     const username = request.body.username;
     const password = request.body.password;
+    const avatar = request.body.avatar;
         
     if (!username || !password) {
         return response.status(401).send("Missing username or password");
@@ -92,7 +101,8 @@ router.post('/', function(request, response) {
 
     const user = {
         username,
-        password
+        password,
+        avatar
     }
 
     // Note that when signing up,
