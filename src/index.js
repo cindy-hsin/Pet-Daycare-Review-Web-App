@@ -12,19 +12,16 @@ import Layout from './Layout';
 
 ReactDOM.render(    
     <BrowserRouter>
-    <Layout>
-    <Routes>
-        <Route path={"/"} element={<Home />}/>
-        <Route path={"/entries/new"} element={<CreateEntry />}/>
-        <Route path={"/entries/edit/:entryId"} element={<UpdateEntry />}/>
-        <Route path={"/entries/:entryId"} element={<Entry />}/>
-        <Route path={"/login"} element={<Login/>}/>
-        <Route path={"/signup"} element={<SignUp/>}/>
-        {/* for testing purposes */}
-        {/*TODO: Add a page to show user's entries*/} 
-        {/* <Route paht={"user/entries"} element={}/> */}
-    </Routes>
-    </Layout>
+        <Layout>
+            <Routes>
+                <Route path={"/"} element={<Home />}/>
+                <Route path={"/entries/new"} element={<CreateEntry />}/>
+                <Route path={"/entries/edit/:entryId"} element={<UpdateEntry />}/>
+                <Route path={"/entries/:entryId"} element={<Entry />}/>
+                <Route path={"/login"} element={<Login />}/>
+                <Route path={"/signup"} element={<SignUp />}/>
+            </Routes>
+        </Layout>
     </BrowserRouter>
     ,
     document.getElementById('root')

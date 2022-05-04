@@ -1,0 +1,22 @@
+.image-container {
+    position: relative;
+    overflow: hidden;
+    margin: auto;
+    border-radius: 10px 10px 0 0;
+    height: 250px;
+  }
+
+.card-image {
+    object-fit: cover;
+    max-width: 100%;
+    min-height: 100%;
+  }
+
+.entry-container {
+    padding: 2%;
+    text-align: center;
+  }
+
+.col-style {
+    padding: 2%;
+}
