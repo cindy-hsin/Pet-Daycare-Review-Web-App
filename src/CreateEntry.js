@@ -39,7 +39,9 @@ function CreateEntry() {
 
 
     return (
-        <EntryForm mode="create" entryInput={entryInput} onSubmit={createNewEntry}/>
+        <div className="central-form">
+            <EntryForm mode="create" entryInput={entryInput} onSubmit={createNewEntry}/>
+        </div>
         
         
         )

@@ -12,7 +12,7 @@ const EntryForm = (props) => {
 
 console.log("entryInput.hasBoarding: ", entryInput.hasBoarding);
   return (
-    <Form form={form} layout="vertical"  labelCol={{span: 4,}} wrapperCol={{span: 16,}}
+    <Form form={form} layout="vertical" 
         initialValues={ props.mode === "update" ? {
             name: entryInput.name, 
             address: entryInput.address,
@@ -22,7 +22,7 @@ console.log("entryInput.hasBoarding: ", entryInput.hasBoarding);
         } : {} }
   >
 
-  <h2>{props.mode === "update" ?  "Edit Entry": "Create New Entry"}</h2>
+  <h2 className="central-text">{props.mode === "update" ?  "Edit Entry": "Create New Entry"}</h2>
   <Form.Item label="Name" name="name"
       rules={[
           {

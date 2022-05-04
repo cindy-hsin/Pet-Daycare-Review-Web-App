@@ -69,6 +69,8 @@ export default function Entry(props) {
         !entry ? (
             <div>Entry Loading...</div>
         ) : <div className="central-form-large">
+                <h1> {entry.name}</h1>
+
                 <div >
                     {/*TODO: May have to adjust size and centerize image */}
                     <Image 
@@ -76,27 +78,25 @@ export default function Entry(props) {
                     /> 
                 </div>
 
-                <div className="entry-header">  
-                    <h1> {entry.name }</h1>
-                    <span> By
+                <div >  
+                    <span>
                         <Avatar size="large" src={/**TODO: get creator's avatar.Try using 'ref' in schema?>*/ defaultAvatar}/>
                         {entry.creator}
                     </span>
                     <p>Last Edited: {moment(entry.updatedAt).format('MMMM Do YYYY, h:mm a')}</p>
                 </div>   
 
-                <Descriptions title="Daycare Info" bordered>
-                    <Descriptions.Item label="Has Grooming" spane={1}> {entry.hasGrooming ? "YES" : "NO"} </Descriptions.Item>
-                    <Descriptions.Item label="Has Boarding" span={2}> {entry.hasBoarding ? "YES" : "NO"} </Descriptions.Item>
-
+                <Descriptions bordered>
                     <Descriptions.Item label="Address" span={3}>
                         {entry.address}
                     </Descriptions.Item>
-                    <Descriptions.Item label="Description"> {entry.description} </Descriptions.Item>
+                    <Descriptions.Item label="Description" span={3}> {entry.description} </Descriptions.Item>
+                    <Descriptions.Item label="Has Grooming" spane={1}> {entry.hasGrooming ? "YES" : "NO"} </Descriptions.Item>
+                    <Descriptions.Item label="Has Boarding" span={2}> {entry.hasBoarding ? "YES" : "NO"} </Descriptions.Item>
                 </Descriptions>
 
                 {loginUsername === entry.creator &&
-                    <div>
+                    <div className="float-right">
                         <Button type="primary" onClick={()=>{
                             navigate('/entries/edit/'+ params.entryId);
                         }}>Edit Daycare Info</Button>
