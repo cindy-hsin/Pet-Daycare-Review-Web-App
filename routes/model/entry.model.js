@@ -41,11 +41,7 @@ function updateEntryById(entryId, updateOfEntry) {
 }
 
 function deleteEntryById(entryId) {
-    //TODO: Also delete all reviews associated with this entry!!
-    // 1. find all reviews with this entryId 
-    // 2. delete all of them (Is there a way to find multiple and delete multiple reviews? )
     return EntryModel.findByIdAndDelete(entryId).exec();
-    // findByIdAndDelete: Finds a matching document, removes it, and passes the found document (if any) to the callback.
 }
 
 module.exports = {

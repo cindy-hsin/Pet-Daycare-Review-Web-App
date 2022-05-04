@@ -1,17 +1,20 @@
 import React from 'react';
 import { useEffect, useState} from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Axios from 'axios';
-import { Image, Descriptions, Divider } from 'antd';
+import { Image, Descriptions, Divider, Button, Modal } from 'antd';
+
 
 import ReviewArea from './ReviewArea'
 import defaultEntryPhoto from './assets/defaultDaycareImage.png'
 
 export default function Entry(props) {
     const [entry, setEntry] = useState(undefined);
-    const [username, setUsername] = useState(null);     //username: current logged-in username
+    const [loginUsername, setLoginUsername] = useState(null);     //loginUsername: current logged-in loginUsername
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
     const params = useParams();
+    const navigate = useNavigate();
     console.log("Entry rendered! ", entry);
 
     // const isLoggedIn = true; // TODO: Just for test. Real log-in logic to be implemented.
@@ -25,7 +28,8 @@ export default function Entry(props) {
             console.log("Entry.jsx: successfully get Entry: ", response.data);
             setEntry(response.data);}) 
         .catch(function(error) {
-            console.log("Get current entry data failed in UpdateEntry.js. Error: ", error.response.data);
+            console.log("Get current entry data failed in Entry.js. Error: ", error.response.data);
+            navigate('/');
         })
     }
 
@@ -34,12 +38,23 @@ export default function Entry(props) {
         Axios.get('/api/users/isLoggedIn')
         .then(response => {
             console.log("Entry.jsx: successfully checked Login user: ", response.data.username);
-            setUsername(response.data.username)
+            setLoginUsername(response.data.username)
         })
         .catch(error => console.log("Entry.jsx: User is not logged in. Error: ", error.response.data));
     }
 
-    // if cookie username valid:
+
+    function deleteEntry() {
+        Axios.delete('/api/entries/' + params.entryId)
+        .then(response => {
+            console.log("Entry.jsx: delteEntry response: ", response);
+            console.log("Entry.jsx: successfully deleted entry and all of its reviews: ", response.data);
+            navigate('/');
+        })
+        .catch(error => console.log("Entry.jsx: Error: ", error.response.data))
+    }
+
+    // if cookie loginUsername valid:
     //      display ReviewForm
     //      if cookieUsername === entry.creator,  Entry Edit, Delete
     //      if cookieUsername === review.creator, Review Edit, Delete
@@ -62,10 +77,11 @@ export default function Entry(props) {
                     Ref: Blogapp */}
 
                 <h1 > {entry.name  /*TODO: centerize name */}</h1>
+                
                 <div>Submitted by {entry.creator/**TODO: Reformat */}</div>   
 
                 <Descriptions title="Daycare Info" bordered>
-                    <Descriptions.Item label="Has Grooming" > {entry.hasGrooming ? "YES" : "NO"} </Descriptions.Item>
+                    <Descriptions.Item label="Has Grooming" spane={1}> {entry.hasGrooming ? "YES" : "NO"} </Descriptions.Item>
                     <Descriptions.Item label="Has Boarding" span={2}> {entry.hasBoarding ? "YES" : "NO"} </Descriptions.Item>
                     
                     {/* <Descriptions.Item label="Status" span={3}>
@@ -78,19 +94,31 @@ export default function Entry(props) {
                     <Descriptions.Item label="Description"> {entry.description} </Descriptions.Item>
                 </Descriptions>
 
-                {/**TODO: Add Edit, Delete button for creator. Ref: Blog-app */}
-                
-
+                {loginUsername === entry.creator &&
+                    <div>
+                        <Button type="primary" onClick={()=>{
+                            navigate('/entries/edit/'+ params.entryId);
+                        }}>Edit Daycare Info</Button>
+                        <Button danger onClick={()=>{
+                            setDeleteModalVisible(true);
+                        }}>Delete Daycare Post</Button>
+                    </div>
+                }
                 
 
                 <Divider />
-                <ReviewArea username={username} entryId={params.entryId} />
-    
-
-                    
-                
-
-
+                <ReviewArea loginUsername={loginUsername} entryId={params.entryId} />
+            
+                <Modal title="Delete Daycare Post" visible={deleteModalVisible}
+                    onOk={()=>{
+                        setDeleteModalVisible(false);
+                        deleteEntry(); 
+                    }}
+                    onCancel={()=>{setDeleteModalVisible(false)}}
+                    >
+                    <p>Are you sure you want to delete this daycare post?</p>
+                    <p>Notice that all reviews will also be deleted.</p>
+                </Modal>
             </div>
 
 

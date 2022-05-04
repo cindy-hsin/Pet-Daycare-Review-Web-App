@@ -137,20 +137,41 @@ router.put('/:entryId', function(request, response) {
         })
 })
 
-
+/**
+ * Delete an Entry, and all of its associated Reviews
+ */
 router.delete('/:entryId', function(request, response) {
     const entryId = request.params.entryId;
-    return EntryModel.deleteEntryById(entryId)
+    let successMessage = "";
+
+    EntryModel.deleteEntryById(entryId)
         .then(dbResponse => {
             if (!dbResponse) {
-                response.status(404).send("Failed to delete entry. No entry exists with entryId: " + entryId);
+                return response.status(404).send("Failed to delete entry. No entry exists with entryId: " + entryId);
             } else {
                 console.log("response of deleteEntryById: ", dbResponse);
-                response.status(200).send("Successfully deleted entry: "+ dbResponse._id);
+                successMessage += "Successfully deleted entry: "+ dbResponse._id; // response.status(200).send("Successfully deleted entry: "+ dbResponse._id);
             }
         }).catch(error => {
-            response.status(400).send("Failed to delete entry. " + error);
+            return response.status(400).send(`Failed to delete entry: ${entryId}.` + error);
         })
+
+    ReviewModel.deleteAllReivewByEntryId(entryId)
+        .then(dbResponse => {
+            if (!dbResponse) {
+                return response.status(404).send("Failed to delete all reviews of entry. No entry exists with entryId: " + entryId);
+            } else {
+                console.log("response of deleteAllReivewByEntryId. ", dbResponse); // dbResponse: {deletedCount: x}
+                return response.status(200).send(
+                    successMessage 
+                  +  `\nSuccessfully deleted all reviews(count: ${dbResponse.deletedCount}) of entry: `+ entryId);
+                //successMessage += `\nSuccessfully deleted all reviews(count: ${dbResponse.deletedCount}) of entry: `+ entryId;
+            }
+        }).catch(error => {
+            return response.status(400).send(`Failed to delete all reviews of entry: ${entryId}` + error);
+        })
+    
+    
 
 })
 
@@ -179,6 +200,7 @@ router.post('/:entryId/reviews', auth_middleware, function(request, response) {
     const entryId = request.params.entryId;
     const creator = request.username;
     const {content, rating} = request.body;
+    console.log("In post route, content: ", content, "rating: ", rating)
 
     // Let's make content and rating required fields! TODO: Add "required toollip" at front-end.
     const fieldCheckResult = checkReviewRequiredField(content, rating);
@@ -200,6 +222,7 @@ router.post('/:entryId/reviews', auth_middleware, function(request, response) {
 
 function checkReviewRequiredField(content, rating) {
     const result = {pass: true, message: ""};
+    console.log("In check, content: ", content, "rating: ", rating)
     if (!content || content.trim().length === 0) {
         result.pass = false;
         result.message += "Missing reivew's content input."
