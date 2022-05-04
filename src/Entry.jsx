@@ -83,10 +83,6 @@ export default function Entry(props) {
                 <Descriptions title="Daycare Info" bordered>
                     <Descriptions.Item label="Has Grooming" spane={1}> {entry.hasGrooming ? "YES" : "NO"} </Descriptions.Item>
                     <Descriptions.Item label="Has Boarding" span={2}> {entry.hasBoarding ? "YES" : "NO"} </Descriptions.Item>
-                    
-                    {/* <Descriptions.Item label="Status" span={3}>
-                        <Badge status="processing" text="Running" />
-                    </Descriptions.Item> */}
 
                     <Descriptions.Item label="Address" span={3}>
                         {entry.address}

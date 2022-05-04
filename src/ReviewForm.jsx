@@ -1,12 +1,29 @@
 import React, { useState } from 'react';
+import Axios from 'axios';
 import { Form, Input, Button, Rate}  from "antd";
 
 export default function ReviewForm({
-    createReview,
-    reviewCreateForm
+    //createReview,
+    entryId,
+    getAllReviewsForEntry,
+    //reviewCreateForm
 }) {
-    // const [reviewCreateForm] = Form.useForm();
-    const [newReview, setNewReview] = useState({});
+    const [reviewCreateForm] = Form.useForm();
+    const [newReviewInput, setNewReviewInput] = useState({});
+    console.log('ReviewForm rendered: newReviewInput: ',newReviewInput);
+
+    function createReview(newReviewInput) {
+        Axios.post('/api/entries/' + entryId + '/reviews', newReviewInput)
+        .then(response => {
+            console.log("ReviewArea.jsx: successfully create reviews: ", response.data);
+            getAllReviewsForEntry();
+            setNewReviewInput({});
+            reviewCreateForm.resetFields();
+        }).catch(error => {
+            console.log("Create review failed in ReviewArea.js. Error: ", error.response.data);
+        })
+
+    }
 
     return (
 
@@ -21,7 +38,7 @@ export default function ReviewForm({
                         },
                     ]}>
                     <Input.TextArea onChange={e => {
-                        setNewReview({...newReview, content: e.target.value});
+                        setNewReviewInput({...newReviewInput, content: e.target.value});
                     }}/>
                 </Form.Item>
 
@@ -32,17 +49,19 @@ export default function ReviewForm({
                         message: 'Please select your rating!',
                         },
                     ]}>
-                    <Rate allowHalf defaultValue={0} onChange={value => {
-                        setNewReview({...newReview, rating: value});
+                    <Rate allowHalf  onChange={value => {
+                        setNewReviewInput({...newReviewInput, rating: value});
                     }}/>
                 </Form.Item>
 
                 <Form.Item>
                     <Button htmlType="submit" type="primary" onClick={()=>{
-                        console.log("Before create, review: ", newReview);
-                        createReview(newReview)
+                        console.log("Before create, review: ", newReviewInput);
+                        createReview(newReviewInput)
+                           //TODO: Not Appropriate Here!
                     }}>Submit</Button>
                     <Button htmlType="button" onClick={()=>{
+                        setNewReviewInput({});
                         reviewCreateForm.resetFields();
                     }}>Clear</Button>
                 </Form.Item>
