@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import defaultAvatar from "./assets/defaultUserAvatar.png";
 import { Avatar, Form, Input, Button, Rate}  from "antd";
 import { EditTwoTone, DeleteTwoTone } from "@ant-design/icons";
-
+import moment from 'moment';
 
 export default function Review({
     review,
@@ -43,7 +43,12 @@ export default function Review({
                 <Avatar size="large" src={/**TODO: get creator's avatar.Try using 'ref' in schema?>*/ defaultAvatar}/>
                 <span><b>{review.creator}</b></span>
                 {review._id !== selectedEditReviewId && (
-                    <span><Rate disabled allowHalf value={review.rating}/></span>
+                    <span>
+                        <Rate disabled allowHalf value={review.rating}/>
+                        Last Edited: {moment(review.updatedAt).format('MMMM Do YYYY, h:mm a')}
+                    </span>
+                    
+                    
                 )}
             </div>
 

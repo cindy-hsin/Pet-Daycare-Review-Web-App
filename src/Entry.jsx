@@ -3,6 +3,7 @@ import { useEffect, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Axios from 'axios';
 import { Image, Descriptions, Divider, Button, Modal } from 'antd';
+import moment from 'moment';
 
 
 import ReviewArea from './ReviewArea'
@@ -65,7 +66,7 @@ export default function Entry(props) {
     return (
         !entry ? (
             <div>Entry Loading...</div>
-        ) : <div className="view-entry central-form-large">
+        ) : <div className="central-form-large">
                 <div >
                     {/*TODO: May have to adjust size and centerize image */}
                     <Image 
@@ -76,9 +77,11 @@ export default function Entry(props) {
                 { /*TODO: Add creator, avator, Last edited:  updatedAt(May 28, 2021 at 20:19) 
                     Ref: Blogapp */}
 
-                <h1 > {entry.name  /*TODO: centerize name */}</h1>
-                
-                <div>Submitted by {entry.creator/**TODO: Reformat */}</div>   
+                <div className="entry-header">  
+                    <h1> {entry.name }</h1>
+                    <p>By {entry.creator/**TODO: Reformat */}</p>
+                    <p>Last Edited: {moment(entry.updatedAt).format('MMMM Do YYYY, h:mm a')}</p>
+                </div>   
 
                 <Descriptions title="Daycare Info" bordered>
                     <Descriptions.Item label="Has Grooming" spane={1}> {entry.hasGrooming ? "YES" : "NO"} </Descriptions.Item>
