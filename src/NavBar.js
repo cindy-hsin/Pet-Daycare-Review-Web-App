@@ -21,17 +21,13 @@ export default function NavBar() {
     const [username, setUsername] = useState(null);
     const [avatar, setAvatar] = useState(null);
 
-
     const navigate = useNavigate();
-    // console.log("NavBar re-renderd. username: ", username);
 
     useEffect(function() {
-        // console.log("Axios.get/...isLoggedIn, username: ", username);
         Axios.get('/api/users/isLoggedIn')
             .then(response => {
                 setUsername(response.data.username); 
                 setAvatar(response.data.avatar);
-                // console.log("username: ", response.data.username, "avatar: ", response.data.avatar);
             })
             .catch(error => console.log("User is not logged in. Error: ", error.response.data));
     })
@@ -40,11 +36,8 @@ export default function NavBar() {
         console.log("log out!");
         Axios.post('/api/users/logout')
         .then(response => {
-            // console.log("Got response from backend")
             setUsername(null);
-            // console.log("After setUsername(null)");
             navigate('/')
-            // console.log("After navigate('/')");
         })
         .catch(error => console.log("Error logging out"));
     }
@@ -53,12 +46,11 @@ export default function NavBar() {
             <Menu selectedKeys={"logo"} mode="horizontal" theme="dark" >
                 <Menu.Item className="unhoverable-menu-item">
                     <a href="/">
-                        <Avatar src={appLogo} shape="square" /> &nbsp; Daycare Review App
+                        <Avatar src={appLogo} shape="square" size="large"/> &nbsp; Daycare Review App
                     </a>
                 </Menu.Item>
                 
-                {username ? (   // TODO: Need to adjust render condition?? 
-                    // <div className="float-right">
+                {username ? (
                     <>
                     <div className="float-right">
                     <Menu.Item
@@ -71,9 +63,9 @@ export default function NavBar() {
                     </div>
                         <SubMenu
                         className="float-right"
-                        key="SubMenu"   //TODO: Avatar src: Need to adjust render condition?? 
+                        key="SubMenu"
                         icon={<Avatar src={avatar ? avatar : defaultAvatar} shape="circle" />}
-                        title={" " + username}   //TODO: Need to save username into an user object when login.
+                        title={" " + username}
                         > 
                             {/*TODO: Add a userPosts page? Modify the href link!!*/ }
                             <Menu.Item key="userPosts" icon={<GroupOutlined />}>
@@ -90,7 +82,6 @@ export default function NavBar() {
                         </SubMenu>
                     </>
                 ) : (
-                    // <div className="float-right">
                     <>
                         <Menu.Item
                         className="float-right"
