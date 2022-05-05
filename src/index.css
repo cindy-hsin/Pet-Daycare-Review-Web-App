@@ -71,3 +71,11 @@ border-radius: 10px;
 .central-text {
   text-align: center;
 }
+
+.two-cols {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 1rem auto;
+}

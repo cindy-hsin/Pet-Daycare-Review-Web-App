@@ -5,11 +5,11 @@ import Axios from 'axios';
 import { Image, Descriptions, Divider, Button, Modal, Avatar } from 'antd';
 import moment from 'moment';
 
-
 import ReviewArea from './ReviewArea'
 import defaultEntryPhoto from './assets/defaultDaycareImage.png'
 import defaultAvatar from "./assets/defaultUserAvatar.png";
 
+import './Entry.css';
 
 export default function Entry(props) {
     const [entry, setEntry] = useState(undefined);
@@ -68,45 +68,48 @@ export default function Entry(props) {
     return (
         !entry ? (
             <div>Entry Loading...</div>
-        ) : <div className="central-form-large">
-                <h1> {entry.name}</h1>
-
-                <div >
-                    {/*TODO: May have to adjust size and centerize image */}
-                    <Image 
-                        src={entry.photo ? entry.photo : defaultEntryPhoto}
-                    /> 
+        ) : <div className="view-post">
+                <div className="entry-title">
+                    <h1>{ entry.name }</h1>
+                    <Image src={entry.photo ? entry.photo : defaultEntryPhoto}/> 
                 </div>
 
-                <div >  
+                <div className="two-cols">  
                     <span>
                         <Avatar size="large" src={/**TODO: get creator's avatar.Try using 'ref' in schema?>*/ defaultAvatar}/>
+                        &nbsp;
                         {entry.creator}
                     </span>
-                    <p>Last Edited: {moment(entry.updatedAt).format('MMMM Do YYYY, h:mm a')}</p>
+                    <p className="timestamp">{moment(entry.updatedAt).format('MMMM Do YYYY, h:mm a')}</p>
                 </div>   
 
-                <Descriptions bordered>
-                    <Descriptions.Item label="Address" span={3}>
-                        {entry.address}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Description" span={3}> {entry.description} </Descriptions.Item>
-                    <Descriptions.Item label="Has Grooming" spane={1}> {entry.hasGrooming ? "YES" : "NO"} </Descriptions.Item>
-                    <Descriptions.Item label="Has Boarding" span={2}> {entry.hasBoarding ? "YES" : "NO"} </Descriptions.Item>
-                </Descriptions>
+                <div className="entry-info">
+                    <Descriptions bordered>
+                        <Descriptions.Item label="Address" span={3}>
+                            {entry.address}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Description" span={3}> {entry.description} </Descriptions.Item>
+                        <Descriptions.Item label="Has Grooming" > {entry.hasGrooming ? "YES" : "NO"} </Descriptions.Item>
+                        <Descriptions.Item label="Has Boarding" > {entry.hasBoarding ? "YES" : "NO"} </Descriptions.Item>
+                        <Descriptions.Item label="Average Rating"> / {/*TODO: Add average rating*/} </Descriptions.Item>
+                    </Descriptions>
+                </div>
 
                 {loginUsername === entry.creator &&
-                    <div className="float-right">
-                        <Button type="primary" onClick={()=>{
-                            navigate('/entries/edit/'+ params.entryId);
-                        }}>Edit Daycare Info</Button>
-                        <Button danger onClick={()=>{
-                            setDeleteModalVisible(true);
-                        }}>Delete Daycare Post</Button>
+                    <div>
+                        <div className="buttons-wrapper float-right">
+                            <Button type="primary" onClick={()=>{
+                                navigate('/entries/edit/'+ params.entryId);
+                            }}>Edit Info</Button>
+                            <Button danger onClick={()=>{
+                                setDeleteModalVisible(true);
+                            }}>Delete Post</Button>
+                        </div>
+                        <br/>
                     </div>
                 }
                 
-
+                
                 <Divider />
                 <ReviewArea loginUsername={loginUsername} entryId={params.entryId} />
             
