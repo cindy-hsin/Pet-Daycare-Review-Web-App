@@ -82,7 +82,7 @@ console.log("entryInput.hasBoarding: ", entryInput.hasBoarding);
 
   
   <Form.Item>
-      <Button htmlType="submit" type="primary" onClick={()=>{
+      <Button className="float-right" htmlType="submit" type="primary" onClick={()=>{
           onSubmit(entryInput)}}>Submit</Button>
   </Form.Item>
   </Form>
