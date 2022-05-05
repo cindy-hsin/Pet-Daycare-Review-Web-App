@@ -42,13 +42,23 @@ export default function Review({
             <div className="two-cols no-vertical-margin">
                 <div>
                     <Avatar size="large" src={/**TODO: get creator's avatar.Try using 'ref' in schema?>*/ defaultAvatar}/>
-                    &nbsp; &nbsp;
+                    &nbsp;
                     <b>{review.creator}</b>
                 </div>
-                <p className="timestamp">
+
+                {review._id !== selectedEditReviewId && window.innerWidth > 414 && (
+                    <p className="timestamp">
+                        {moment(review.updatedAt).format('MMMM Do YYYY, h:mm a')}
+                    </p>
+                )}               
+            </div>
+
+            {review._id !== selectedEditReviewId && window.innerWidth <= 414 && (
+                <p className="timestamp no-vertical-margin" >
                     {moment(review.updatedAt).format('MMMM Do YYYY, h:mm a')}
                 </p>
-            </div>
+            )}  
+
 
             {/* <div className="review-rating">
                 {review._id !== selectedEditReviewId &&
@@ -61,19 +71,6 @@ export default function Review({
                 <Form form={reviewEditForm} initialValues={{
                     content: review.content,
                     rating: review.rating}}>
-                    <Form.Item label="Content" name="content"
-                        rules={[
-                            {
-                            required: true,
-                            whitespace: true,
-                            message: 'Please enter your review content!',
-                            },
-                        ]}>
-                        <Input.TextArea onChange={e => {
-                            setNewReviewInput({...newReviewInput, content: e.target.value});
-                            console.log("setNewReviewInput called");
-                            }}/>
-                    </Form.Item>
 
                     <Form.Item label="Rating" name="rating"
                         rules={[
@@ -87,6 +84,19 @@ export default function Review({
                         }}/>
                     </Form.Item>
 
+                    <Form.Item label="Content" name="content"
+                        rules={[
+                            {
+                            required: true,
+                            whitespace: true,
+                            message: 'Please enter your review content!',
+                            },
+                        ]}>
+                        <Input.TextArea onChange={e => {
+                            setNewReviewInput({...newReviewInput, content: e.target.value});
+                            console.log("setNewReviewInput called");
+                            }}/>
+                    </Form.Item>
 
                     <Form.Item>
                         <div className="buttons-wrapper">
@@ -103,8 +113,12 @@ export default function Review({
                 <div>
                     <Rate disabled allowHalf value={review.rating}
                         className="review-rating"/>
-                    &nbsp; &nbsp; &nbsp; &nbsp; 
-                    <span>{review.content}</span>
+                    {window.innerWidth > 400 ? (
+                        <span> &nbsp; &nbsp;{review.content}</span>
+                        ) : (
+                        <div>{review.content}</div>
+                    )}
+                    
                 </div>
             )}
             

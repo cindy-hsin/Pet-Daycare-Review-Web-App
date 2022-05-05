@@ -26,7 +26,7 @@ export default function ReviewForm({
     }
 
     return (
-        <div>
+        <div className="review-form">
             <Form form={reviewCreateForm}>
                 <h2> Leave a review: </h2>
 

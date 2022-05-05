@@ -2,7 +2,7 @@
     background-color: white;
     color: black;
     margin: 3% 15%;
-    padding: 2rem 4rem;
+    padding: 2rem 3rem;
     box-shadow: -2px 5px 14px -1px rgba(0, 0, 0, 0.2);
     border: 1px solid lightgray;
     border-radius: 10px;
@@ -13,8 +13,8 @@
 }
 
 .entry-title h1{
-    font-size: 3rem;
-    line-height: 3.5rem;
+    font-size: 2.5rem;
+    line-height: 3rem;
 }
 
 .two-cols {
@@ -54,7 +54,6 @@
     align-items: end;
     margin: 1rem auto;
     gap: 1rem;
-    /*transition: all 200ms ease-in-out;*/  /*TODO:?? What for??*/
 }
 
 
@@ -69,6 +68,104 @@
     margin-bottom: 0;
 }
 
+.no-top-margin {
+    margin-top: 0;
+}
+
+@media (max-width: 912px) {
+    .view-post {
+        margin: 3% 8%;
+    }
+}
+
+
 @media (max-width: 768px) {
-    
+    .view-post {
+        margin: 3% 5%;
+    }
+
+    .entry-title h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 540px) {
+    .view-post {
+        margin: 3% 1.5%;
+        padding: 1.25rem 2rem;
+    }
+
+    .entry-title h1 {
+        font-size: 1.6rem;
+        line-height: 2rem;
+    }
+
+    .ant-divider-horizontal {
+        margin-bottom: 10px;
+    }
+
+    .review-area {
+        margin-top: 0.5rem;
+    }
+
+    .review-area h2 {
+        margin-bottom: 0.5rem;
+    }
+
+    .ant-form .ant-form-item:first-of-type{
+        margin-bottom: 10px;
+    }
+
+    .ant-form .ant-form-item-label{
+        padding: 0;
+    }
+}   
+
+
+@media (max-width: 414px) {
+    .view-post {
+        margin: 3% 0;
+        padding: 1.25rem 1.5rem;
+    }
+
+    .entry-title h1 {
+        font-size: 1.5rem;
+        line-height: 2rem;
+    }
+
+    .etnry-info .ant-descriptions-item-label,
+    .etnry-info .ant-descriptions-item-content {
+        padding: 8px 10px;
+    }
+
+}
+
+@media (max-width: 400px) {
+    .view-post {
+        padding: 1.25rem 1.25rem;
+    }
+
+    .single-review-container {
+        margin: 0.5rem auto;
+    }
+
+    .ant-descriptions-item-label {
+        font-size: 12px;
+    }
+
+    .ant-descriptions-item-content {
+        font-size: 12px;
+    }
+
+    .ant-form .ant-form-item {
+        margin-bottom: 12px;
+    }
+
+    .ant-form .ant-form-item:first-of-type{
+        margin-bottom: 0px;
+    }
+
+    .entry-title h1{
+        font-size: 1.5rem;
+    }
 }
