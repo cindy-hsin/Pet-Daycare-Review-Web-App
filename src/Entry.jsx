@@ -63,8 +63,6 @@ export default function Entry(props) {
     //      if cookieUsername === review.creator, Review Edit, Delete
 
 
-  
-
     return (
         !entry ? (
             <div>Entry Loading...</div>
@@ -72,6 +70,7 @@ export default function Entry(props) {
                 <div className="entry-title">
                     <h1>{ entry.name }</h1>
                     <Image src={entry.photo ? entry.photo : defaultEntryPhoto}/> 
+                    <br/> 
                 </div>
 
                 <div className="two-cols">  
@@ -84,13 +83,13 @@ export default function Entry(props) {
                 </div>   
 
                 <div className="entry-info">
-                    <Descriptions bordered>
-                        <Descriptions.Item label="Address" span={3}>
+                    <Descriptions bordered size={window.innerWidth > 540 ? "middle" : "small"}>
+                        <Descriptions.Item label="Address" span={3} >
                             {entry.address}
                         </Descriptions.Item>
-                        <Descriptions.Item label="Description" span={3}> {entry.description} </Descriptions.Item>
+                        <Descriptions.Item label="Description" span={3} > {entry.description} </Descriptions.Item>
                         <Descriptions.Item label="Has Grooming" > {entry.hasGrooming ? "YES" : "NO"} </Descriptions.Item>
-                        <Descriptions.Item label="Has Boarding" > {entry.hasBoarding ? "YES" : "NO"} </Descriptions.Item>
+                        <Descriptions.Item label="Has Boarding"> {entry.hasBoarding ? "YES" : "NO"} </Descriptions.Item>
                         <Descriptions.Item label="Average Rating"> / {/*TODO: Add average rating*/} </Descriptions.Item>
                     </Descriptions>
                 </div>
