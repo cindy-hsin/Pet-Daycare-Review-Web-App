@@ -54,8 +54,11 @@ function UpdateEntry() {
 
     return (
         hasFetchedData ? 
-            <EntryForm mode="update" entryInput={entryInput} onSubmit={updateEntry}></EntryForm> : 
-            <></>    
+            <div className='central-form'>
+                <EntryForm mode="update" entryInput={entryInput} onSubmit={updateEntry}></EntryForm>
+            </div >
+             : 
+            ''    
     );
 
 }

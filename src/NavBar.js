@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router';
 import {
   LoginOutlined,
   UserAddOutlined,
-  GroupOutlined,
   FormOutlined,
 } from "@ant-design/icons";
 
@@ -46,64 +45,57 @@ export default function NavBar() {
             <Menu selectedKeys={"logo"} mode="horizontal" theme="dark" >
                 <Menu.Item className="unhoverable-menu-item">
                     <a href="/">
-                        <Avatar src={appLogo} shape="square" size="large"/> &nbsp; Daycare Review App
+                        <Avatar src={appLogo} shape="square" size="large"/> &nbsp; Dog Daycare Review
                     </a>
                 </Menu.Item>
-                
+
                 {username ? (
                     <>
-                    <div className="float-right">
-                    <Menu.Item
-                        className="float-right"
-                        key="newPost"
-                        icon={<FormOutlined />}
-                        >
-                        <a href="/entries/new">Create New Entry</a>
-                        </Menu.Item>
-                    </div>
-                        <SubMenu
-                        className="float-right"
-                        key="SubMenu"
-                        icon={<Avatar src={avatar ? avatar : defaultAvatar} shape="circle" />}
-                        title={" " + username}
-                        > 
-                            {/*TODO: Add a userPosts page? Modify the href link!!*/ }
-                            <Menu.Item key="userPosts" icon={<GroupOutlined />}>
-                                <a href="/user/posts">User Posts</a>
-                            </Menu.Item>
-
+                        <div className="float-right">
                             <Menu.Item
-                                key="logout"
-                                icon={<LoginOutlined />}
-                                onClick={logout}
-                            >
-                                Logout
-                            </Menu.Item>
-                        </SubMenu>
+                                className="float-right"
+                                key="newPost"
+                                icon={<FormOutlined />}
+                                >
+                                    <a href="/entries/new">Create New Entry</a>
+                                </Menu.Item>
+                        </div>
+                        <Menu.Item
+                            className="float-right"
+                            key="logout"
+                        >
+                            <a href="/entries/new">Create New Entry</a>
+                        </Menu.Item>
+
+                         <Menu.Item
+                            key="logout"
+                            icon={<LoginOutlined />}
+                            onClick={logout}
+                        >
+                            Logout
+                        </Menu.Item>
                     </>
                 ) : (
                     <>
                         <Menu.Item
-                        className="float-right"
-                        key="login"
-                        icon={<LoginOutlined />}
+                            className="float-right"
+                            key="login"
+                            icon={<LoginOutlined />}
                         >
-                        <a href="/login">Log In</a>
+                            <a href="/login">Log In</a>
                         </Menu.Item>
 
                         <Menu.Item
-                        className="float-right"
-                        key="signup"
-                        icon={<UserAddOutlined />}
+                            className="float-right"
+                            key="signup"
+                            icon={<UserAddOutlined />}
                         >
-                        <a href="/signup">Sign Up</a>
+                            <a href="/signup">Sign Up</a>
                         </Menu.Item>
                     </>
                 )
                 }
             </Menu>
-
-
     )
 
 }
