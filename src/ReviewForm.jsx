@@ -26,21 +26,9 @@ export default function ReviewForm({
     }
 
     return (
-
         <div>
             <Form form={reviewCreateForm}>
-                <Form.Item label="Content" name="content"
-                    rules={[
-                        {
-                        required: true,
-                        whitespace: true,
-                        message: 'Please enter your review content!',
-                        },
-                    ]}>
-                    <Input.TextArea onChange={e => {
-                        setNewReviewInput({...newReviewInput, content: e.target.value});
-                    }}/>
-                </Form.Item>
+                <h2> Leave a review: </h2>
 
                 <Form.Item label="Rating" name="rating"
                     rules={[
@@ -54,16 +42,31 @@ export default function ReviewForm({
                     }}/>
                 </Form.Item>
 
+                <Form.Item label="Content" name="content"
+                    rules={[
+                        {
+                        required: true,
+                        whitespace: true,
+                        message: 'Please enter your review content!',
+                        },
+                    ]}>
+                    <Input.TextArea onChange={e => {
+                        setNewReviewInput({...newReviewInput, content: e.target.value});
+                    }}/>
+                </Form.Item>
+
                 <Form.Item>
-                    <Button htmlType="submit" type="primary" onClick={()=>{
-                        console.log("Before create, review: ", newReviewInput);
-                        createReview(newReviewInput)
-                           //TODO: Not Appropriate Here!
-                    }}>Submit</Button>
-                    <Button htmlType="button" onClick={()=>{
-                        setNewReviewInput({});
-                        reviewCreateForm.resetFields();
-                    }}>Clear</Button>
+                    <div className="buttons-wrapper">
+                        <Button htmlType="submit" type="primary" onClick={()=>{
+                            console.log("Before create, review: ", newReviewInput);
+                            createReview(newReviewInput)
+                            //TODO: Not Appropriate Here!
+                        }}>Submit</Button>
+                        <Button htmlType="button" onClick={()=>{
+                            setNewReviewInput({});
+                            reviewCreateForm.resetFields();
+                        }}>Clear</Button>
+                    </div>
                 </Form.Item>
             </Form>
 

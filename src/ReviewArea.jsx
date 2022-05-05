@@ -5,6 +5,7 @@ import ReviewForm from './ReviewForm';
 import Review from './Review';
 import { Modal, Form } from 'antd';
 
+
 export default function ReviewArea({
     loginUsername,
     entryId
@@ -45,7 +46,6 @@ export default function ReviewArea({
             // setEditFinishFlag(false);  // TODO:??
             console.log("Update review failed in ReviewArea.js. Error: ", error.response.data);
         })
-
     }
 
 
@@ -60,28 +60,30 @@ export default function ReviewArea({
     }
 
     return (
-        <div> 
+        <div className="review-area"> 
             {loginUsername && <ReviewForm entryId={entryId} getAllReviewsForEntry={getAllReviewsForEntry}/>} 
-            <br/>
             
-            {reviews && reviews.map((review,index) => (
-                <Review 
-                    review={review} 
-                    key={index} 
-                    index={index}
-                    loginUsername={loginUsername}
-                    updateReview={updateReview}
-                    //getAllReviewsForEntry={getAllReviewsForEntry}
-                    //entryId={entryId}
-                    selectedEditReviewId={selectedEditReviewId}
-                    setSelectedEditReviewId={setSelectedEditReviewId} 
-                    setSelectedDeleteReviewId={setSelectedDeleteReviewId}
-                    setDeleteModalVisible={setDeleteModalVisible}
-                    //</div>editFinishFlag={editFinishFlag}
-                    >
-                </Review>
-                // <div>{review.content}.....Submitted by {review.creator}</div>
-            ))}
+            {reviews && <p>{reviews.length} Reviews</p> }
+            {reviews && (
+                reviews.map((review,index) => (
+                        <Review 
+                            review={review} 
+                            key={index} 
+                            index={index}
+                            loginUsername={loginUsername}
+                            updateReview={updateReview}
+                            //getAllReviewsForEntry={getAllReviewsForEntry}
+                            //entryId={entryId}
+                            selectedEditReviewId={selectedEditReviewId}
+                            setSelectedEditReviewId={setSelectedEditReviewId} 
+                            setSelectedDeleteReviewId={setSelectedDeleteReviewId}
+                            setDeleteModalVisible={setDeleteModalVisible}
+                            //</div>editFinishFlag={editFinishFlag}
+                            >
+                        </Review>
+                ))          
+            )}
+
 
             <Modal title="Delete Review" visible={deleteModalVisible} 
                 onOk={()=>{

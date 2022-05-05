@@ -38,71 +38,83 @@ export default function Review({
 
 
     return (
-        <div >
-            <div>
-                <Avatar size="large" src={/**TODO: get creator's avatar.Try using 'ref' in schema?>*/ defaultAvatar}/>
-                <span><b>{review.creator}</b></span>
-                {review._id !== selectedEditReviewId && (
-                    <span>
-                        <Rate disabled allowHalf value={review.rating}/>
-                        Last Edited: {moment(review.updatedAt).format('MMMM Do YYYY, h:mm a')}
-                    </span>
-                    
-                    
-                )}
+        <div className="single-review-container">
+            <div className="two-cols no-vertical-margin">
+                <div>
+                    <Avatar size="large" src={/**TODO: get creator's avatar.Try using 'ref' in schema?>*/ defaultAvatar}/>
+                    &nbsp; &nbsp;
+                    <b>{review.creator}</b>
+                </div>
+                <p className="timestamp">
+                    {moment(review.updatedAt).format('MMMM Do YYYY, h:mm a')}
+                </p>
             </div>
 
-            <div>
-                {review._id === selectedEditReviewId ? (
-                    <Form form={reviewEditForm} initialValues={{
-                        content: review.content,
-                        rating: review.rating}}>
-                        <Form.Item label="Content" name="content"
-                            rules={[
-                                {
-                                required: true,
-                                whitespace: true,
-                                message: 'Please enter your review content!',
-                                },
-                            ]}>
-                            <Input.TextArea onChange={e => {
-                                setNewReviewInput({...newReviewInput, content: e.target.value});
-                                console.log("setNewReviewInput called");
-                                }}/>
-                        </Form.Item>
+            {/* <div className="review-rating">
+                {review._id !== selectedEditReviewId &&
+                    <Rate disabled allowHalf value={review.rating}/>
+                }
+            </div> */}
 
-                        <Form.Item label="Rating" name="rating"
-                            rules={[
-                                {
-                                required: true,
-                                message: 'Please select your rating!',
-                                },
-                            ]}>
-                            <Rate allowHalf onChange={value => {
-                                setNewReviewInput({...newReviewInput, rating: value});
+            
+            {review._id === selectedEditReviewId ? (
+                <Form form={reviewEditForm} initialValues={{
+                    content: review.content,
+                    rating: review.rating}}>
+                    <Form.Item label="Content" name="content"
+                        rules={[
+                            {
+                            required: true,
+                            whitespace: true,
+                            message: 'Please enter your review content!',
+                            },
+                        ]}>
+                        <Input.TextArea onChange={e => {
+                            setNewReviewInput({...newReviewInput, content: e.target.value});
+                            console.log("setNewReviewInput called");
                             }}/>
-                        </Form.Item>
+                    </Form.Item>
+
+                    <Form.Item label="Rating" name="rating"
+                        rules={[
+                            {
+                            required: true,
+                            message: 'Please select your rating!',
+                            },
+                        ]}>
+                        <Rate allowHalf onChange={value => {
+                            setNewReviewInput({...newReviewInput, rating: value});
+                        }}/>
+                    </Form.Item>
 
 
-                        <Form.Item>
+                    <Form.Item>
+                        <div className="buttons-wrapper">
                             <Button htmlType="submit" type="primary" onClick={()=>{
                                 updateReview(review._id, newReviewInput)
                             }}>Update Review</Button>
                             <Button htmlType="button" onClick={()=>{
                                 setSelectedEditReviewId(null)
                             }}>Cancel</Button>
-                        </Form.Item>
-                    </Form>
-                ) :  (
-                    review.content
-                )}
-            </div>
+                        </div>
+                    </Form.Item>
+                </Form>
+            ) :  (
+                <div>
+                    <Rate disabled allowHalf value={review.rating}
+                        className="review-rating"/>
+                    &nbsp; &nbsp; &nbsp; &nbsp; 
+                    <span>{review.content}</span>
+                </div>
+            )}
+            
 
-            <div>
-                {review._id !== selectedEditReviewId && (
-                    <>
-                        {review.creator === loginUsername && (
-                            <div>
+            {review._id !== selectedEditReviewId && (
+                <>
+                    {review.creator === loginUsername && (
+                        <div className="two-cols no-vertical-margin">
+                            <div></div>
+                            <div className="buttons-wrapper">
                                 <EditTwoTone onClick={()=>{
                                     setSelectedEditReviewId(review._id);
                                 }}/>
@@ -111,13 +123,11 @@ export default function Review({
                                     setDeleteModalVisible(true);
                                 }}/>
                             </div>
-                        )}
-                        
-                    
-                    </>
+                        </div>
+                    )}
+                </>
+            )}
 
-                )}
-            </div>
 
         </div>
 

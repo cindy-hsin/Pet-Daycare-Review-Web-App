@@ -1,0 +1,74 @@
+.view-post {
+    background-color: white;
+    color: black;
+    margin: 3% 15%;
+    padding: 2rem 4rem;
+    box-shadow: -2px 5px 14px -1px rgba(0, 0, 0, 0.2);
+    border: 1px solid lightgray;
+    border-radius: 10px;
+}
+
+.entry-title {
+    text-align: center
+}
+
+.entry-title h1{
+    font-size: 3rem;
+    line-height: 3.5rem;
+}
+
+.two-cols {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.timestamp {
+    color: darkgray;
+}
+
+.entry-info {
+    margin-bottom: 1rem;
+}
+
+.buttons-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 0.7rem;
+}
+
+.review-area {
+    margin-top: 1rem;
+}
+
+.review-area h2 {
+    margin-bottom: 1rem;
+}
+
+.single-review-container {
+    background-color: #fafafa;
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    flex-direction: row;
+    align-items: end;
+    margin: 1rem auto;
+    gap: 1rem;
+    /*transition: all 200ms ease-in-out;*/  /*TODO:?? What for??*/
+}
+
+
+.review-rating {
+    line-height: 1rem;
+    font-size: 15px;
+}
+
+
+.no-vertical-margin {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    
+}
