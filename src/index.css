@@ -72,10 +72,22 @@ border-radius: 10px;
   text-align: center;
 }
 
-.two-cols {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: baseline;
-    margin: 1rem auto;
+/* override antd components */
+.ant-layout-header {
+  padding: 0;
+}
+
+@media only screen and (max-width: 700px) {
+  .central-form {
+    background-color: white;
+    color: black;
+    margin: 1% 0%;
+    box-shadow: -2px 5px 14px -1px rgba(0, 0, 0, 0.2);
+    border: 1px solid lightgray;
+    border-radius: 10px;
+  }
+
+  .page-content {
+    padding: 0.5rem 1rem 1rem 1rem
+  }
 }
