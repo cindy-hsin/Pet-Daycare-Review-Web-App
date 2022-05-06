@@ -33,7 +33,7 @@ db.on('error', console.error.bind(console, 'Error connecting to MongoDB:'));
  * Cookies will be difficult to implement if front-end and back-end
  * are separted in different domian.
  */
-const cors = require('cors');
+// const cors = require('cors');
 
 
 /** Use a middleware called static.
@@ -46,9 +46,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 /** No longer need 'cors' in single-server app at deploy phase. */
-app.use(cors({
-    origin: '*'
-}))
+// app.use(cors({
+//     origin: '*'
+// }))
 
 /** Be sure to use the cookie-parser before the routes! */
 app.use(cookieParser());
