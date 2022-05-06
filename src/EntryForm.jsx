@@ -1,5 +1,7 @@
 import React from 'react';
 import { Form, Input, Button, Select } from 'antd';
+import { useNavigate } from 'react-router-dom';
+
 
 const EntryForm = (props) => {
   const [form] = Form.useForm();
@@ -8,6 +10,7 @@ const EntryForm = (props) => {
   // props.onSubmit is a function.
   // If parent component is UpdateEntry, props.onSubmit = updateEntry; 
   // else if parent component is CreateEntry, props.onSubmit = createNewEntry;
+  const navigate = useNavigate();
 
 
 console.log("entryInput.hasBoarding: ", entryInput.hasBoarding);
@@ -82,8 +85,13 @@ console.log("entryInput.hasBoarding: ", entryInput.hasBoarding);
 
   
   <Form.Item>
-      <Button className="float-right" htmlType="submit" type="primary" onClick={()=>{
-          onSubmit(entryInput)}}>Submit</Button>
+        <div className="float-right buttons-wrapper">
+            <Button htmlType="submit" type="primary" onClick={()=>{
+                onSubmit(entryInput)}}>Submit</Button>
+            <Button type="button" onClick={()=>{
+                navigate(-1)}}>Cancel</Button>
+        </div>
+    
   </Form.Item>
   </Form>
   );

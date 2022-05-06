@@ -77,6 +77,8 @@ border-radius: 10px;
   padding: 0;
 }
 
+
+
 @media only screen and (max-width: 700px) {
   .central-form {
     background-color: white;
@@ -91,3 +93,22 @@ border-radius: 10px;
     padding: 0.5rem 1rem 1rem 1rem
   }
 }
+
+@media (max-width: 540px) {
+
+    /** NavBar two-end separate menu items*/
+    .ant-menu::before {
+        display: none;
+    }
+
+    .ant-menu::after {
+        display: none;
+    }
+
+    .ant-menu-overflow {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+

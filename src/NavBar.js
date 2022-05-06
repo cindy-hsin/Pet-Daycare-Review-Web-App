@@ -41,7 +41,7 @@ export default function NavBar() {
         .catch(error => console.log("Error logging out"));
     }
 
-    return(
+    return( 
             <Menu selectedKeys={"logo"} mode="horizontal" theme="dark" >
                 <Menu.Item className="unhoverable-menu-item">
                     <a href="/">
@@ -51,30 +51,27 @@ export default function NavBar() {
 
                 {username ? (
                     <>
-                        <div className="float-right">
-                            <Menu.Item
-                                className="float-right"
-                                key="newPost"
-                                icon={<FormOutlined />}
-                                >
-                                    <a href="/entries/new">Create New Entry</a>
-                                </Menu.Item>
-                        </div>
                         <Menu.Item
-                            className="float-right"
-                            key="logout"
-                        >
-                            <a href="/entries/new">Create New Entry</a>
+                            key="newPost"
+                            icon={<FormOutlined />}
+                            >
+                                <a href="/entries/new">Create New Entry</a>
                         </Menu.Item>
 
-                         <Menu.Item
-                            key="logout"
-                            icon={<LoginOutlined />}
-                            onClick={logout}
-                        >
-                            Logout
-                        </Menu.Item>
-                    </>
+                        <SubMenu
+                            key="SubMenu"
+                            icon={<Avatar src={avatar ? avatar : defaultAvatar} shape="circle" />}
+                            title={" " + username}
+                            > 
+                            <Menu.Item
+                                key="logout"
+                                icon={<LoginOutlined />}
+                                onClick={logout}
+                            >
+                                Logout
+                            </Menu.Item>
+                        </SubMenu>
+                    </>                  
                 ) : (
                     <>
                         <Menu.Item
@@ -98,4 +95,4 @@ export default function NavBar() {
             </Menu>
     )
 
-}
+ }
