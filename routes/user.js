@@ -6,6 +6,9 @@ const UserModel = require('./model/user.model');
 const jwt = require('jsonwebtoken');
 const auth_middleware = require('./middleware/auth_middleware');
 
+require("dotenv").config();
+const COOKIE_KEY = process.env.COOKIE_KEY;
+
 // APIs for Register/Login/Authenticate
 
 /** User Log-in Route */ 
@@ -29,7 +32,7 @@ router.post('/authenticate', function(request, response) {
             if (dbResponseUser.password === password) {
                 const payload = {username};
                 // Encrypt the username and return a token
-                const token = jwt.sign(payload, "SUPER_SECRET", {
+                const token = jwt.sign(payload, COOKIE_KEY, {
                     expiresIn: '14d'   // optional cookie expiration date
                 })
                 console.log("Log-in Route: token: ", token);
@@ -66,7 +69,7 @@ router.get('/isLoggedin', auth_middleware, function(request, response){
 router.post('/logout', auth_middleware, function(request, response){
     // To remove cookie, just set the cookie "expiresIn" field to expire immediately,
     // and set the payload to be empty.
-    const token = jwt.sign({}, "SUPER_SECRET", {
+    const token = jwt.sign({}, COOKIE_KEY, {
         expiresIn: '0d'
     });
     return response.cookie('token', token, {httpOnly: true})
@@ -113,7 +116,7 @@ router.post('/', function(request, response) {
             .then(dbResponseUser => {
                 const payload = {username};
                 // Encrypt the username and return a token
-                const token = jwt.sign(payload, "SUPER_SECRET", {
+                const token = jwt.sign(payload, COOKIE_KEY, {
                     expiresIn: '14d'   // optional cookie expiration date
                 })
                 // Save the toekn into cookie, which will go along with all future requests 

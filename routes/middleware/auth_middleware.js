@@ -1,5 +1,8 @@
 const jwt = require('jsonwebtoken');
 
+require("dotenv").config();
+const COOKIE_KEY = process.env.COOKIE_KEY;
+
 module.exports = function(req, res, next) {
     const token = req.cookies.token;
     console.log("auth_middlware: token: ", token);
@@ -8,7 +11,7 @@ module.exports = function(req, res, next) {
         res.status(401).send('Unauthorized: No token provided.');
     } else {
         // Decrypt the token
-        jwt.verify(token, "SUPER_SECRET", function(err, decoded) {
+        jwt.verify(token, COOKIE_KEY, function(err, decoded) {
             // decoded: the decoded token object, which corresponds to the 
             // payload encrypted into the token at authentication phase.
             if (err) { // Decryption failed
