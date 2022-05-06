@@ -82,6 +82,7 @@ router.post('/logout', auth_middleware, function(request, response){
 
 
 router.get('/:username', function(request, response) {
+    console.log("!!!!!")
     const userName = request.params.username;
 
     return UserModel.getUserByUserName(userName)
@@ -89,6 +90,7 @@ router.get('/:username', function(request, response) {
             if (!dbResponseUser) {
                 return response.status(404).send("No user exists with that username")
             } else {
+                console.log("IN user.js, successfully get user object: ", dbResponseUser)
                 return response.status(200).send(dbResponseUser);
             }
         })

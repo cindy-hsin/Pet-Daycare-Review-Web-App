@@ -13,13 +13,13 @@ import './Entry.css';
 
 export default function Entry(props) {
     const [entry, setEntry] = useState(undefined);
+    const [creatorAvatar, setCreatorAvatar] = useState(null);
     const [loginUsername, setLoginUsername] = useState(null);    // loginUsername: current logged-in loginUsername
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
     const [averageRating, setAverageRating] = useState(null);
 
     const params = useParams();
     const navigate = useNavigate();
-    console.log("Entry rendered! ", entry);
 
 
     useEffect(getEntry, []);
@@ -30,11 +30,23 @@ export default function Entry(props) {
         Axios.get('/api/entries/' + params.entryId)
         .then(response => {
             console.log("Entry.jsx: successfully get Entry: ", response.data);
+            getCreatorAvatar(response.data.creator);
             setEntry(response.data);}) 
         .catch(function(error) {
             console.log("Get current entry data failed in Entry.js. Error: ", error.response.data);
             navigate('/');
         })
+    }
+
+    function getCreatorAvatar(creator) {
+        console.log("creator: ", creator);
+        Axios.get('/api/users/' + creator)
+            .then(response => {
+                console.log("Entry.jsx: successfully get entry creator avatar: ", response.data);
+                setCreatorAvatar(response.data.avatar)
+            }).catch(
+                error => {console.log("Entry.js: Get entry creator avatar failed. Error:", error.response.data)}
+            )
     }
 
     function checkLoginUser() {
@@ -92,7 +104,7 @@ export default function Entry(props) {
 
                 <div className="two-cols">  
                     <span>
-                        <Avatar size="large" src={/**TODO: get creator's avatar.Try using 'ref' in schema?>*/ defaultAvatar}/>
+                        <Avatar size="large" src={creatorAvatar ? creatorAvatar : defaultAvatar}/>
                         &nbsp;
                         {entry.creator}
                     </span>

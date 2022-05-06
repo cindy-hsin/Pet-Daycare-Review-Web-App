@@ -3,6 +3,7 @@ import defaultAvatar from "./assets/defaultUserAvatar.png";
 import { Avatar, Form, Input, Button, Rate}  from "antd";
 import { EditTwoTone, DeleteTwoTone } from "@ant-design/icons";
 import moment from 'moment';
+import Axios from 'axios';
 
 export default function Review({
     review,
@@ -13,12 +14,11 @@ export default function Review({
     setSelectedEditReviewId,
     setSelectedDeleteReviewId,
     setDeleteModalVisible,
-}) {
-    
+}) { 
     const [reviewEditForm] = Form.useForm();
     const [newReviewInput, setNewReviewInput] = useState(review);
-    console.log('Review ' + index + ' rendered. review: ' , review, "newReviewInput: ", newReviewInput);
-
+    const [creatorAvatar, setCreatorAvatar] = useState(null);
+    
     
     useEffect(()=>{
         setNewReviewInput(review);
@@ -35,13 +35,28 @@ export default function Review({
     // But newReviewInput remains the original value, so if we click "edit" button, and then directly click "Update" 
     // without doing anything to the input area, the submitted value will be the original "newReviewInput",
     // instead of the newly passed-in review, which is wrong.
+    
+    useEffect(()=> {
+        getCreatorAvatar(review.creator)
+    }, [review]);
 
+    function getCreatorAvatar(creator) {
+        console.log("creator: ", creator);
+        Axios.get('/api/users/' + creator)
+            .then(response => {
+                console.log("Review.jsx: successfully get entry creator avatar: ", response.data);
+                setCreatorAvatar(response.data.avatar)
+            }).catch(
+                error => {console.log("Review.js: Get entry creator avatar failed. Error:", error.response.data)}
+            )
+    }
 
+        
     return (
         <div className="single-review-container">
             <div className="two-cols no-vertical-margin">
                 <div>
-                    <Avatar size="large" src={/**TODO: get creator's avatar.Try using 'ref' in schema?>*/ defaultAvatar}/>
+                    <Avatar size="large" src={creatorAvatar ? creatorAvatar : defaultAvatar}/>
                     &nbsp;
                     <b>{review.creator}</b>
                 </div>
@@ -58,13 +73,6 @@ export default function Review({
                     {moment(review.updatedAt).format('MMMM Do YYYY, h:mm a')}
                 </p>
             )}  
-
-
-            {/* <div className="review-rating">
-                {review._id !== selectedEditReviewId &&
-                    <Rate disabled allowHalf value={review.rating}/>
-                }
-            </div> */}
 
             
             {review._id === selectedEditReviewId ? (

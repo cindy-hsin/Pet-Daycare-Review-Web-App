@@ -150,7 +150,7 @@ router.delete('/:entryId', function(request, response) {
                 return response.status(404).send("Failed to delete entry. No entry exists with entryId: " + entryId);
             } else {
                 console.log("response of deleteEntryById: ", dbResponse);
-                successMessage += "Successfully deleted entry: "+ dbResponse._id; // response.status(200).send("Successfully deleted entry: "+ dbResponse._id);
+                successMessage += "Successfully deleted entry: "+ dbResponse._id; 
             }
         }).catch(error => {
             return response.status(400).send(`Failed to delete entry: ${entryId}.` + error);
@@ -165,14 +165,10 @@ router.delete('/:entryId', function(request, response) {
                 return response.status(200).send(
                     successMessage 
                   +  `\nSuccessfully deleted all reviews(count: ${dbResponse.deletedCount}) of entry: `+ entryId);
-                //successMessage += `\nSuccessfully deleted all reviews(count: ${dbResponse.deletedCount}) of entry: `+ entryId;
             }
         }).catch(error => {
             return response.status(400).send(`Failed to delete all reviews of entry: ${entryId}` + error);
         })
-    
-    
-
 })
 
 
