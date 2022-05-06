@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
-import { Form, Input, Button, Select } from 'antd';
+import { Form, Input, Button, Tag } from 'antd';
 
 
 export default function Login(props) {
     const [form] = Form.useForm();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [submissionError, setSubmissionError] = useState({});
 
     // useNavigate hook: For redirect.
     const navigate = useNavigate();
@@ -34,13 +35,8 @@ export default function Login(props) {
                 navigate('/');
             })
             .catch(error => {
-                console.log(error)
-                if (error.response) {
-                    console.log(error.response.data)
-                    if (error.response.data.message) {
-                        console.log(error.response.data.message)
-                    }
-                }
+                console.log("Login.jsx: authenticateUser failed. Error: ", error.response);
+                return setSubmissionError(error.response);
             });
     }
 
@@ -67,6 +63,19 @@ export default function Login(props) {
                       ]}>  
                 <Input.Password  onChange={e => setPassword(e.target.value)}/>
             </Form.Item>
+
+            
+
+            <div>
+                {Object.entries(submissionError).map(([key, value]) => (
+                    (key === "customMessage"|| key === "data" || key === "status" || key==="statusText") && 
+                        (<Tag color="error" className="full-width" key={key}>
+                            {value}
+                        </Tag>)
+                ))}
+            </div>
+
+            
 
             <Form.Item>
                 <Button className="float-right" htmlType='submit' type="primary" onClick={authenticateUser}>Login</Button>

@@ -17,8 +17,16 @@ router.post('/authenticate', function(request, response) {
     const username = request.body.username;
     const password = request.body.password;
 
+    if (!username || !password) {
+        return response.status(400).send("Missing username or password!");
+    }
+
     return UserModel.getUserByUserName(username)
         .then(dbResponseUser => {
+            // If username doesn't exist in database, the returned dbResponseUser will be null.
+            if (!dbResponseUser) {
+                return response.status(400).send("Username doesn't exist!");
+            }
             // If the password of the same username in the database
             // is equal to the password entered by the user (coming from the request),
             // then we log the user in.
@@ -34,10 +42,11 @@ router.post('/authenticate', function(request, response) {
                     .status(200).send({username})  //Notice we don't send back the password! Only the username!
 
             }
-            console.log("Before returning Invalid Password")
             return response.status(401).send("Invalid Password!");
         })
-        .catch(error => response.status(400).send(error));
+        .catch(error => {
+            console.log("error in router: ", error);
+            return response.status(408).send(error)});
 
 })
 
@@ -54,7 +63,8 @@ router.get('/isLoggedin', auth_middleware, function(request, response){
             return response.status(200).send({
                 username: decodedUsername,
                 avatar: dbResponseUser.avatar})
-        }).catch(error => response.status(400).send("Failed to get user's avatar from database"))
+        }).catch(error => {            
+            response.status(400).send("Failed to get user's username and avatar from database")})
 })
 
 
@@ -86,16 +96,10 @@ router.get('/:username', function(request, response) {
 })
 
 /** User sign-up route, i.e. create a new user*/ 
-router.post('/', function(request, response) {
-    // const username = request.body.username;
-    // const password = request.body.password;
-    // const avatar = request.body.avatar;
-        
+router.post('/', function(request, response) {        
     if (!request.body.username || !request.body.password) {
-        return response.status(401).send("Missing username or password");
+        return response.status(400).send("Missing username or password");
     }
-
-    // TODO: Handle duplicate username error. Ref: https://stackoverflow.com/questions/38945608/custom-error-messages-with-mongoose
 
     request.body.password = bcrypt.hashSync(request.body.password, 10);   // Encrypt password
 
@@ -116,7 +120,14 @@ router.post('/', function(request, response) {
                 return response.cookie('token', token, {httpOnly: true})
                     .status(200).send({username: request.body.username})
             })
-            .catch(error => response.status(400).send(error));
+            .catch(error => {
+                if (error.name ==="MongoServerError" && error.code === 11000) {
+                    // NOTE: error code 11000 stands for duplicate key error (violates uniqueness contraint defined in the schema)
+                    return response.status(400).send(`Username ${request.body.username} is already used!`);
+                } else {
+                    return response.status(400).send(error)
+                }
+            });
 })
 
 module.exports = router;
