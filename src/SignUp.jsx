@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import {Form, Input, Button} from 'antd';
 
+const avatarUrlPlaceholder = "https://www.mockofun.com/wp-content/uploads/2019/12/circle-image.jpg";
 
 export default function CreateUser(props) {
     const [form] = Form.useForm();
@@ -42,7 +43,7 @@ export default function CreateUser(props) {
                           message: 'Please input your username!',
                         },
                       ]}>  
-                <Input placeholder="ABC" onChange={e => setUsername(e.target.value)}/>
+                <Input onChange={e => setUsername(e.target.value)}/>
             </Form.Item>
 
             <Form.Item label="Password" name="password"
@@ -52,11 +53,11 @@ export default function CreateUser(props) {
                           message: 'Please input your password!',
                         },
                       ]}>  
-                <Input placeholder="777777" onChange={e => setPassword(e.target.value)}/>
+                <Input.Password  onChange={e => setPassword(e.target.value)}/>
             </Form.Item>
 
             <Form.Item label="Profile Image URL" name="avatar">  
-                <Input.TextArea placeholder="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.theverge.com%2F2019%2F5%2F6%2F18531287%2Fpokemon-neuroscience-visual-cortex-brain-information&psig=AOvVaw1eWRzo-cb5_ikD_CNCPPKr&ust=1651548760409000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCMii0tvwv_cCFQAAAAAdAAAAABAP"
+                <Input.TextArea placeholder= {avatarUrlPlaceholder}
                         onChange={e => setAvatar(e.target.value)}/>
             </Form.Item>
 

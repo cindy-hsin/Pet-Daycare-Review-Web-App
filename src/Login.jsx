@@ -55,7 +55,7 @@ export default function Login(props) {
                           message: 'Please input your username!',
                         },
                       ]}>  
-                <Input placeholder="ABC" onChange={e => setUsername(e.target.value)}/>
+                <Input  onChange={e => setUsername(e.target.value)}/>
             </Form.Item>
 
             <Form.Item label="Password" name="password"
@@ -65,7 +65,7 @@ export default function Login(props) {
                           message: 'Please input your password!',
                         },
                       ]}>  
-                <Input placeholder="777777" onChange={e => setPassword(e.target.value)}/>
+                <Input.Password  onChange={e => setPassword(e.target.value)}/>
             </Form.Item>
 
             <Form.Item>
