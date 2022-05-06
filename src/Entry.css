@@ -72,9 +72,9 @@
     margin-top: 0;
 }
 
-@media (max-width: 912px) {
+@media (max-width: 1024px) {
     .view-post {
-        margin: 3% 8%;
+        margin: 3% 5%;
     }
 }
 
