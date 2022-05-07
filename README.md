@@ -1,8 +1,8 @@
 Write-up Summary: 
 
-Team members: Yiyu  Tian, ChuanHsin Chen
-Repo link: https://github.com/cindy-hsin/Yiyu-Tian-ChuanHsin-Chen-Project3
-Heroku link: https://dog-daycare-app.herokuapp.com/
+* Team members: Yiyu  Tian, ChuanHsin Chen
+* Repo link: https://github.com/cindy-hsin/Yiyu-Tian-ChuanHsin-Chen-Project3
+* Heroku link: https://dog-daycare-app.herokuapp.com/
 
 ## Information for testing APP:
 Here are some of the existing user info in our database. Feel free to try logging in with these usernames and passwords.
