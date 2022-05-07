@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
-import { Form, Input, Button, Select } from 'antd';
+import { Form, Input, Button, Tag } from 'antd';
 
 
 export default function Login(props) {
     const [form] = Form.useForm();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [submissionError, setSubmissionError] = useState({});
 
     // useNavigate hook: For redirect.
     const navigate = useNavigate();
@@ -23,24 +24,19 @@ export default function Login(props) {
                 // When ready to redirect to '/' from Login component,
                 // we're already at front-end(localhost:3000/),
                 // so <Router> in src/index.js will determine what will be the redirected page.
-                // Here, we'll be redirected to <App/> component, to show all homes owned by current user.
+                // Here, we'll be redirected to <Home/> component, to show all entries.
 
 
                 // After deployment:
                 // '/' matches the '*' route and Node will server index.html,
                 // which is translated from index.js.
                 // So similarly, <Router> in index.js determines that we'll be 
-                // redirected to <App/>
+                // redirected to <Home/>
                 navigate('/');
             })
             .catch(error => {
-                console.log(error)
-                if (error.response) {
-                    console.log(error.response.data)
-                    if (error.response.data.message) {
-                        console.log(error.response.data.message)
-                    }
-                }
+                console.log("Login.jsx: authenticateUser failed. Error: ", error.response);
+                return setSubmissionError(error.response);
             });
     }
 
@@ -55,7 +51,7 @@ export default function Login(props) {
                           message: 'Please input your username!',
                         },
                       ]}>  
-                <Input placeholder="ABC" onChange={e => setUsername(e.target.value)}/>
+                <Input  onChange={e => setUsername(e.target.value)}/>
             </Form.Item>
 
             <Form.Item label="Password" name="password"
@@ -65,8 +61,21 @@ export default function Login(props) {
                           message: 'Please input your password!',
                         },
                       ]}>  
-                <Input placeholder="777777" onChange={e => setPassword(e.target.value)}/>
+                <Input.Password  onChange={e => setPassword(e.target.value)}/>
             </Form.Item>
+
+            
+
+            <div>
+                {Object.entries(submissionError).map(([key, value]) => (
+                    (key === "customMessage"|| key === "data" || key === "status" || key==="statusText") && 
+                        (<Tag color="error" className="full-width" key={key}>
+                            {value}
+                        </Tag>)
+                ))}
+            </div>
+
+            
 
             <Form.Item>
                 <Button className="float-right" htmlType='submit' type="primary" onClick={authenticateUser}>Login</Button>

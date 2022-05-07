@@ -90,8 +90,7 @@ export default function NavBar() {
                             <a href="/signup">Sign Up</a>
                         </Menu.Item>
                     </>
-                )
-                }
+                )}
             </Menu>
     )
 

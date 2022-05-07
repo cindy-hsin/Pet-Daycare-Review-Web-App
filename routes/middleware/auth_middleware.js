@@ -21,7 +21,7 @@ module.exports = function(req, res, next) {
                 console.log("Decrypted username: ", decoded.username);
                 // Store the decoded username to the request object, as a new attribute: username
                 req.username = decoded.username;  //the decoded object, the payload: {username: xxxx}
-                // Pass the request to the next middleware/route function TODO:????? Is it correct?
+                // Pass the request to the next middleware/route function
                 next();
             }
         })

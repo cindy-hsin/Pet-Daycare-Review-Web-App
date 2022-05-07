@@ -24,7 +24,7 @@ function deleteReviewById(reviewId) {
 }
 
 function deleteAllReivewByEntryId(entryId) {
-    return ReviewModel.deleteMany({entryId: entryId})   //TODO: entryId need to convert to ObjectID type? 
+    return ReviewModel.deleteMany({entryId: entryId})
 }
 
 module.exports = {

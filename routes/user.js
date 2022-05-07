@@ -4,6 +4,7 @@ const router = express.Router();
 const UserModel = require('./model/user.model');
 
 const jwt = require('jsonwebtoken');
+const bcrypt= require('bcryptjs');      // Encrypt password when register, decrypt when authenticate.
 const auth_middleware = require('./middleware/auth_middleware');
 
 require("dotenv").config();
@@ -14,22 +15,22 @@ const COOKIE_KEY = process.env.COOKIE_KEY;
 /** User Log-in Route */ 
 router.post('/authenticate', function(request, response) {
     const username = request.body.username;
-     // To ensure numerical password is also stored as string in db:   password + '', to convert to String
-    // TODO:?? Confirm if this is needed
-    const password = request.body.password + '';
+    const password = request.body.password;
 
-    console.log("Before call getUserByUserName");
+    if (!username || !password) {
+        return response.status(400).send("Missing username or password!");
+    }
 
     return UserModel.getUserByUserName(username)
         .then(dbResponseUser => {
+            // If username doesn't exist in database, the returned dbResponseUser will be null.
+            if (!dbResponseUser) {
+                return response.status(400).send("Username doesn't exist!");
+            }
             // If the password of the same username in the database
             // is equal to the password entered by the user (coming from the request),
             // then we log the user in.
-            console.log("dbResponseUser: ", dbResponseUser);
-            console.log(dbResponseUser.password === password);
-            console.log(dbResponseUser.password, typeof(dbResponseUser.password));
-            console.log(password, typeof(password));
-            if (dbResponseUser.password === password) {
+            if (bcrypt.compareSync(password, dbResponseUser.password)) {
                 const payload = {username};
                 // Encrypt the username and return a token
                 const token = jwt.sign(payload, COOKIE_KEY, {
@@ -41,10 +42,11 @@ router.post('/authenticate', function(request, response) {
                     .status(200).send({username})  //Notice we don't send back the password! Only the username!
 
             }
-            console.log("Before returning Invalid Password")
             return response.status(401).send("Invalid Password!");
         })
-        .catch(error => response.status(400).send(error));
+        .catch(error => {
+            console.log("error in router: ", error);
+            return response.status(408).send(error)});
 
 })
 
@@ -52,7 +54,7 @@ router.post('/authenticate', function(request, response) {
 router.get('/isLoggedin', auth_middleware, function(request, response){
     // If is currently logged in, request.username should not be empty, and
     // we'll send back the username with response.
-    // Otherwise, request.username will be ??? TODO:???
+    // Otherwise, in auth_middlware, a 401 response will be sent back to front-end, and will not come to the logic here.
     const decodedUsername = request.username;
 
     // Get the user's avatar from DB
@@ -61,11 +63,12 @@ router.get('/isLoggedin', auth_middleware, function(request, response){
             return response.status(200).send({
                 username: decodedUsername,
                 avatar: dbResponseUser.avatar})
-        }).catch(error => response.status(400).send("Failed to get user's avatar from database"))
+        }).catch(error => {            
+            response.status(400).send("Failed to get user's username and avatar from database")})
 })
 
 
-// TODO: Why is login/logout a POST request?
+// NOTE: Logout is a POST request! (Ref: https://stackoverflow.com/a/14587231/17803072)
 router.post('/logout', auth_middleware, function(request, response){
     // To remove cookie, just set the cookie "expiresIn" field to expire immediately,
     // and set the payload to be empty.
@@ -86,6 +89,7 @@ router.get('/:username', function(request, response) {
             if (!dbResponseUser) {
                 return response.status(404).send("No user exists with that username")
             } else {
+                console.log("user.js, successfully get user object: ", dbResponseUser)
                 return response.status(200).send(dbResponseUser);
             }
         })
@@ -93,20 +97,14 @@ router.get('/:username', function(request, response) {
 })
 
 /** User sign-up route, i.e. create a new user*/ 
-router.post('/', function(request, response) {
-    const username = request.body.username;
-    const password = request.body.password;
-    const avatar = request.body.avatar;
-        
-    if (!username || !password) {
-        return response.status(401).send("Missing username or password");
+router.post('/', function(request, response) {        
+    if (!request.body.username || !request.body.password) {
+        return response.status(400).send("Missing username or password");
     }
 
-    const user = {
-        username,
-        password,
-        avatar
-    }
+    request.body.password = bcrypt.hashSync(request.body.password, 10);   // Encrypt password
+
+    const user = request.body;
 
     // Note that when signing up,
     // we also need to encrypt username, set the token in cookie, and send the cookie back with response.
@@ -114,21 +112,23 @@ router.post('/', function(request, response) {
     // any user-specific features.
     return UserModel.createUser(user)
             .then(dbResponseUser => {
-                const payload = {username};
+                const payload = {username: request.body.username};
                 // Encrypt the username and return a token
                 const token = jwt.sign(payload, COOKIE_KEY, {
                     expiresIn: '14d'   // optional cookie expiration date
                 })
                 // Save the toekn into cookie, which will go along with all future requests 
                 return response.cookie('token', token, {httpOnly: true})
-                    .status(200).send({username})  //
+                    .status(200).send({username: request.body.username})
             })
-            .catch(error => response.status(400).send(error));
-
-
-
-
-
+            .catch(error => {
+                if (error.name ==="MongoServerError" && error.code === 11000) {
+                    // NOTE: error code 11000 stands for duplicate key error (violates uniqueness contraint defined in the schema)
+                    return response.status(400).send(`Username ${request.body.username} is already used!`);
+                } else {
+                    return response.status(400).send(error)
+                }
+            });
 })
 
 module.exports = router;

@@ -3,25 +3,24 @@ import { useEffect, useState} from 'react';
 import Axios from 'axios';
 import ReviewForm from './ReviewForm';
 import Review from './Review';
-import { Modal, Form } from 'antd';
+import { Modal } from 'antd';
 
 
 export default function ReviewArea({
     loginUsername,
-    entryId
+    entryId,
+    getAverageRating
 }) {
     const [reviews, setReviews] = useState(null);
-    const [selectedEditReviewId, setSelectedEditReviewId] = useState(null); //TODO: null??
+    const [selectedEditReviewId, setSelectedEditReviewId] = useState(null);
     const [selectedDeleteReviewId, setSelectedDeleteReviewId] = useState(null);
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-    // const [reviewCreateForm] = Form.useForm();
-
     
     console.log("ReviewArea rendered, reviews: ", reviews, "selectedEditReviewId: ", selectedEditReviewId, 
     "selectedDeleteReviewId: ", selectedDeleteReviewId, "deleteModalVisiable: ", deleteModalVisible);
 
-    useEffect(getAllReviewsForEntry,[]); // TODO: Add condition?
-
+    useEffect(getAllReviewsForEntry,[]);
+    useEffect(getAverageRating, [reviews]); // update average rating
 
     function getAllReviewsForEntry(){
         Axios.get('/api/entries/' + entryId + '/reviews')
@@ -43,7 +42,6 @@ export default function ReviewArea({
             setSelectedEditReviewId(null);
             getAllReviewsForEntry();
         }).catch(function(error) {
-            // setEditFinishFlag(false);  // TODO:??
             console.log("Update review failed in ReviewArea.js. Error: ", error.response.data);
         })
     }
@@ -72,13 +70,10 @@ export default function ReviewArea({
                             index={index}
                             loginUsername={loginUsername}
                             updateReview={updateReview}
-                            //getAllReviewsForEntry={getAllReviewsForEntry}
-                            //entryId={entryId}
                             selectedEditReviewId={selectedEditReviewId}
                             setSelectedEditReviewId={setSelectedEditReviewId} 
                             setSelectedDeleteReviewId={setSelectedDeleteReviewId}
                             setDeleteModalVisible={setDeleteModalVisible}
-                            //</div>editFinishFlag={editFinishFlag}
                             >
                         </Review>
                 ))          

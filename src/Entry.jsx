@@ -13,27 +13,40 @@ import './Entry.css';
 
 export default function Entry(props) {
     const [entry, setEntry] = useState(undefined);
-    const [loginUsername, setLoginUsername] = useState(null);     //loginUsername: current logged-in loginUsername
+    const [creatorAvatar, setCreatorAvatar] = useState(null);
+    const [loginUsername, setLoginUsername] = useState(null);    // loginUsername: current logged-in loginUsername
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+    const [averageRating, setAverageRating] = useState(null);
 
     const params = useParams();
     const navigate = useNavigate();
-    console.log("Entry rendered! ", entry);
 
-    // const isLoggedIn = true; // TODO: Just for test. Real log-in logic to be implemented.
 
     useEffect(getEntry, []);
-    useEffect(checkLoginUser, [])   //TODO: ?? edge case??
+    useEffect(checkLoginUser, []) 
+    useEffect(getAverageRating, [])
 
     function getEntry() {
         Axios.get('/api/entries/' + params.entryId)
         .then(response => {
             console.log("Entry.jsx: successfully get Entry: ", response.data);
+            getCreatorAvatar(response.data.creator);
             setEntry(response.data);}) 
         .catch(function(error) {
             console.log("Get current entry data failed in Entry.js. Error: ", error.response.data);
             navigate('/');
         })
+    }
+
+    function getCreatorAvatar(creator) {
+        console.log("creator: ", creator);
+        Axios.get('/api/users/' + creator)
+            .then(response => {
+                console.log("Entry.jsx: successfully get entry creator avatar: ", response.data);
+                setCreatorAvatar(response.data.avatar)
+            }).catch(
+                error => {console.log("Entry.js: Get entry creator avatar failed. Error:", error.response.data)}
+            )
     }
 
     function checkLoginUser() {
@@ -46,6 +59,27 @@ export default function Entry(props) {
         .catch(error => console.log("Entry.jsx: User is not logged in. Error: ", error.response.data));
     }
 
+    function getAverageRating() {
+        Axios.get('/api/entries/' + params.entryId + '/reviews')
+        .then(response => {
+            console.log("Entry.jsx: successfully get all reviews to calculate average rating: ", response.data);
+            const ratings = response.data.map(review => review.rating)
+            if (ratings.length > 0) {
+                const average = (ratings.reduce((a,b) => a + b) / ratings.length);
+                const formatter = new Intl.NumberFormat('en-US', {
+                    minimumFractionDigits: 1,      
+                    maximumFractionDigits: 1,
+                 });
+
+                console.log("Entry.jsx: calculated averageRating: ", average);
+                setAverageRating(formatter.format(average));    // formatter.format returns a string
+             } else {
+                setAverageRating(null);
+             }
+        }).catch(error => {
+            console.log("Entry.jsx: Get average rating failed. Error: ", error)
+        })
+    }
 
     function deleteEntry() {
         Axios.delete('/api/entries/' + params.entryId)
@@ -56,11 +90,6 @@ export default function Entry(props) {
         })
         .catch(error => console.log("Entry.jsx: Error: ", error.response.data))
     }
-
-    // if cookie loginUsername valid:
-    //      display ReviewForm
-    //      if cookieUsername === entry.creator,  Entry Edit, Delete
-    //      if cookieUsername === review.creator, Review Edit, Delete
 
 
     return (
@@ -75,7 +104,7 @@ export default function Entry(props) {
 
                 <div className="two-cols">  
                     <span>
-                        <Avatar size="large" src={/**TODO: get creator's avatar.Try using 'ref' in schema?>*/ defaultAvatar}/>
+                        <Avatar size="large" src={creatorAvatar ? creatorAvatar : defaultAvatar}/>
                         &nbsp;
                         {entry.creator}
                     </span>
@@ -90,7 +119,7 @@ export default function Entry(props) {
                         <Descriptions.Item label="Description" span={3} > {entry.description} </Descriptions.Item>
                         <Descriptions.Item label="Has Grooming" > {entry.hasGrooming ? "YES" : "NO"} </Descriptions.Item>
                         <Descriptions.Item label="Has Boarding"> {entry.hasBoarding ? "YES" : "NO"} </Descriptions.Item>
-                        <Descriptions.Item label="Average Rating"> / {/*TODO: Add average rating*/} </Descriptions.Item>
+                        <Descriptions.Item label="Average Rating"> {averageRating ? averageRating : "/"} </Descriptions.Item>
                     </Descriptions>
                 </div>
 
@@ -110,7 +139,7 @@ export default function Entry(props) {
                 
                 
                 <Divider />
-                <ReviewArea loginUsername={loginUsername} entryId={params.entryId} />
+                <ReviewArea loginUsername={loginUsername} entryId={params.entryId} getAverageRating={getAverageRating}/>
             
                 <Modal title="Delete Daycare Post" visible={deleteModalVisible}
                     onOk={()=>{

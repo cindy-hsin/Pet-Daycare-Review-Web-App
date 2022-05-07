@@ -3,20 +3,16 @@ const EntrySchema =require('../schema/entry.schema');
 
 const EntryModel = mongoose.model("Entry", EntrySchema);
 
+
+/**
+ *  Use the Model to insert a new home record into database.
+    Arg: home: is a Javascript object in code. Will be mapped to a record in database.
+    Return: A Promise object that either resolves with a database response(in this case, 
+    the newly created object), or rejects with an error.
+ */
 function createEntry(entry) {
-    // Use the Model to insert a new home record into database.
-    // Arg: home: is a Javascript object in code. Will be mapped to a record in database.
-    // Return: A Promise object that either resolves with a database response(in this case, 
-    // the newly created object), or rejects with an error.
     return EntryModel.create(entry);
 }
-
-// Query homes whose owner is the given username
-// function getEntriesByUsername(username) {
-//     return EntryModel.find({
-//         owner: username
-//     }).exec();
-// }
 
 /**
  * @returns All entries sorted by updatedAt, from newest to oldest.
