@@ -48,25 +48,3 @@ function CreateEntry() {
 }
 
 export default CreateEntry;
-
-
-    // function getEntries() {
-    //   Axios.get('/api/entries')
-    //     .then(function(response) {
-    //       setEntries(response.data);
-    //     }).catch(
-    //         error => {console.log("Get all entries failed in App.js. Error: ", error.response.data);}
-    //     )
-    // }
-
-
-        // useEffect(getEntries, []);
-
-    // const entryComponent = [];
-    // for(let entry of entries) {
-    //   entryComponent.push(<div>
-    //     <a href={'/entry/' + entry._id}>
-    //         <h1>{entry.name}</h1>
-    //     </a>
-    //     </div>)
-    // }

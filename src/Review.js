@@ -26,19 +26,22 @@ export default function Review({
             content: review.content,
             rating: review.rating
         })}, [review])  // VERY IMPORTANT!! 
-    // Without this useEffect, "newReviewInput" won't be updated to the new review.
-    // Scenario: After updating or deleting a review,
-    // the order of reviews array changed. 
-    // By calling getAllReviewsForEntry() in updateReview and deleteReview functions (in ReviewArea.jsx),
-    // the state "reviews" array in ReviewArea gets updated, and therefore when 
-    // rendering the list of <Review> components, a new review props is passed into each <Review> and the new review gets rendered.
-    // But newReviewInput remains the original value, so if we click "edit" button, and then directly click "Update" 
-    // without doing anything to the input area, the submitted value will be the original "newReviewInput",
-    // instead of the newly passed-in review, which is wrong.
-    
+        /**
+            Without this useEffect, "newReviewInput" won't be updated to the new review.
+            Scenario: After updating or deleting a review,
+            the order of reviews array changed. 
+            By calling getAllReviewsForEntry() in updateReview and deleteReview functions (in ReviewArea.jsx),
+            the state "reviews" array in ReviewArea gets updated, and therefore when 
+            rendering the list of <Review> components, a new review props is passed into each <Review> and the new review gets rendered.
+            But newReviewInput remains the original value, so if we click "edit" button, and then directly click "Update" 
+            without doing anything to the input area, the submitted value will be the original "newReviewInput",
+            instead of the newly passed-in review, which is wrong.
+         */
+
     useEffect(()=> {
         getCreatorAvatar(review.creator)
     }, [review]);
+
 
     function getCreatorAvatar(creator) {
         console.log("creator: ", creator);
@@ -125,7 +128,8 @@ export default function Review({
                         <span> &nbsp; &nbsp;{review.content}</span>
                         ) : (
                         <div>{review.content}</div>
-                    )}
+                        )
+                    }
                     
                 </div>
             )}

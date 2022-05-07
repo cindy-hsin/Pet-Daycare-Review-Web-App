@@ -5,6 +5,8 @@ const ReviewModel = require('./model/review.model');
 const router = express.Router();
 const auth_middleware = require('./middleware/auth_middleware');
 
+const { checkEntryRequiredField,
+    checkReviewRequiredField } = require('./fieldCheckHelper');
 
 /**
  * Get all entries (at Homepage), sorted from newest to oldest.
@@ -57,10 +59,10 @@ router.get('/:entryId', function(request, response) {
  *  but that will make all requests that match any routes to go through the auth_middleware,
  *  which is not necessary. We only need to know user info when creating home and getting home, but not
  *  when in other routes.
+ * 
+ * Use auth_middleware to decrypt the cookie token first, to get the info (e.g. username)
+ * of currently logged-in user, s.t. we can make operations based on the user info.
  */
-// Use auth_middleware to decrypt the cookie token first, to get the info (e.g. username)
-// of currently logged-in user, s.t. we can make operations based on the user info.
-
 router.post('/', auth_middleware, function(request, response) {
     const {name, address, hasBoarding, hasGrooming} = request.body;
 
@@ -87,27 +89,6 @@ router.post('/', auth_middleware, function(request, response) {
       })
 
 });
-
-function checkEntryRequiredField(name, address, hasGrooming, hasBoarding) {
-    const result = {pass: true, message: ""};
-    if (!name || name.trim().length === 0) {
-        result.pass = false;
-        result.message += "Missing entry's name input."
-    }
-    if (!address || address.trim().length === 0) {
-        result.pass = false;
-        result.message += " Missing entry's address input.";
-    }
-    if (typeof(hasGrooming) === "undefined" || hasGrooming === null) {
-        result.pass = false;
-        result.message += " Missing entry's hasGrooming input.";
-    }
-    if (typeof(hasBoarding) === "undefined" || hasGrooming === null) {
-        result.pass = false;
-        result.message += " Missing entry's hasBoarding input.";
-    }
-    return result;   
-}
 
 
 router.put('/:entryId', function(request, response) {
@@ -198,7 +179,6 @@ router.post('/:entryId/reviews', auth_middleware, function(request, response) {
     const {content, rating} = request.body;
     console.log("In post route, content: ", content, "rating: ", rating)
 
-    // Let's make content and rating required fields! TODO: Add "required toollip" at front-end.
     const fieldCheckResult = checkReviewRequiredField(content, rating);
     if (!fieldCheckResult.pass) {
         return response.status(400).send(fieldCheckResult.message);
@@ -215,20 +195,6 @@ router.post('/:entryId/reviews', auth_middleware, function(request, response) {
         })
 })
 
-
-function checkReviewRequiredField(content, rating) {
-    const result = {pass: true, message: ""};
-    console.log("In check, content: ", content, "rating: ", rating)
-    if (!content || content.trim().length === 0) {
-        result.pass = false;
-        result.message += "Missing reivew's content input."
-    }
-    if (typeof(rating) === "undefined" || rating === null) {    //TODO: Front-end: ReviewForm import {Rate} from 'antd' to use the predefined "star" design. Then, test backend validation logic. 
-        result.pass = false;
-        result.message += " Missing reivew's rating input.";
-    }
-    return result;   
-}
 
 /**
  *  Update a review

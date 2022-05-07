@@ -24,14 +24,14 @@ export default function Login(props) {
                 // When ready to redirect to '/' from Login component,
                 // we're already at front-end(localhost:3000/),
                 // so <Router> in src/index.js will determine what will be the redirected page.
-                // Here, we'll be redirected to <App/> component, to show all homes owned by current user.
+                // Here, we'll be redirected to <Home/> component, to show all entries.
 
 
                 // After deployment:
                 // '/' matches the '*' route and Node will server index.html,
                 // which is translated from index.js.
                 // So similarly, <Router> in index.js determines that we'll be 
-                // redirected to <App/>
+                // redirected to <Home/>
                 navigate('/');
             })
             .catch(error => {

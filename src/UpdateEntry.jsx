@@ -6,7 +6,6 @@ import EntryForm from './EntryForm';
 
 
 function UpdateEntry() {
-    // const [form] = Form.useForm();
     const [entryInput, setEntryInput] = useState({});
     const [hasFetchedData, setHasFetchedData] = useState(false);
     const navigate = useNavigate();
@@ -19,12 +18,6 @@ function UpdateEntry() {
     function getCurrentEntryData() {
         Axios.get('/api/entries/' + pathParams.entryId)
             .then(function(response) {
-                // form.setFieldsValue({
-                //     name: response.data.name,
-                //     address: response.data.address,
-                //     description: response.data.description,
-                //     image: response.data.image
-                // });
                 setEntryInput(response.data);
                 setHasFetchedData(true);
             }).catch(function(error) {
@@ -44,7 +37,6 @@ function UpdateEntry() {
             .then(function(response) {
                 const responseEntryId = response.data; // backend sends back the entryId only
                 console.log("UpdateEntry.js, successfully updated: ", responseEntryId);
-                // setEntryInput('');
                 navigate('/entries/'+ responseEntryId);
             })
             .catch(function(error) {

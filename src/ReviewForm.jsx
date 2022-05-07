@@ -3,10 +3,8 @@ import Axios from 'axios';
 import { Form, Input, Button, Rate}  from "antd";
 
 export default function ReviewForm({
-    //createReview,
     entryId,
     getAllReviewsForEntry,
-    //reviewCreateForm
 }) {
     const [reviewCreateForm] = Form.useForm();
     const [newReviewInput, setNewReviewInput] = useState({});
@@ -60,7 +58,6 @@ export default function ReviewForm({
                         <Button htmlType="submit" type="primary" onClick={()=>{
                             console.log("Before create, review: ", newReviewInput);
                             createReview(newReviewInput)
-                            //TODO: Not Appropriate Here!
                         }}>Submit</Button>
                         <Button htmlType="button" onClick={()=>{
                             setNewReviewInput({});
