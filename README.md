@@ -10,6 +10,10 @@ Here are some of the existing user info in our database. Feel free to try loggin
 * username: avatarUser, password: avatarUser
 * username: happy, password: happy 
 
+## Bonus-point feature we've implemented:
+1. Password Encryption
+2. Rated Reviews
+
 ## What were some challenges you faced while making this app?
 1. Design of Mongo Schema. Since Entry and Review has a "one-to-many" relationship, we struggled about 
    whether to store a reference to the Entry's id in each Review record,
