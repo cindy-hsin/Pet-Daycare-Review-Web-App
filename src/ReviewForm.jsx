@@ -15,7 +15,7 @@ export default function ReviewForm({
         .then(response => {
             console.log("ReviewArea.jsx: successfully create reviews: ", response.data);
             getAllReviewsForEntry();
-            setNewReviewInput({});
+            setNewReviewInput({});       // Without this, the content of next submission will be built on top of the previous submission.
             reviewCreateForm.resetFields();
         }).catch(error => {
             console.log("Create review failed in ReviewArea.js. Error: ", error.response.data);
