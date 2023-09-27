@@ -1,8 +1,8 @@
 Write-up Summary: 
 
 * Team members: Yiyu  Tian, ChuanHsin Chen
-* Repo link: https://github.com/cindy-hsin/Yiyu-Tian-ChuanHsin-Chen-Project3
-* Heroku link: https://dog-daycare-app.herokuapp.com/
+* Repo link: https://github.com/cindy-hsin/Pet-Daycare-Review-Web-App
+* Website link: https://pet-daycare-review.onrender.com/
 
 ## Information for testing APP:
 Here are some of the existing user info in our database. Feel free to try logging in with these usernames and passwords.
@@ -81,7 +81,7 @@ After creating React app using "npx create-react-app":
 
 
 #### Note: We still need to use 'cors' in server.js, just for dev phase. 
-Notice the "devStart" script below runs React and node server separately during dev phase. So 'cor' issue still exists. But if we run 'npm run build' and then "npm run start" (which does 'node server.js'), node server will now serve us the react code (i.e. this route is defined in server.js), and since front-end and back-end are now in the same domain, 'cors' is not neede any more. This is simulating what Heroku will do (first run "npm run build", and then 'npm run start') after we deploy our app.
+Notice the "devStart" script below runs React and node server separately during dev phase. So 'cor' issue still exists. But if we run 'npm run build' and then "npm run start" (which does 'node server.js'), node server will now serve us the react code (i.e. this route is defined in server.js), and since front-end and back-end are now in the same domain, 'cors' is not neede any more. This is simulating what Heroku/Render will do (first run "npm run build", and then 'npm run start') after we deploy our app.
 
 
 
